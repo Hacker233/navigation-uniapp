@@ -26,6 +26,12 @@
 				</u-transition>
 			</view>
 		</view>
+
+		<!-- 上拉加載动画 -->
+		<view class="loading-box" v-if="isloading">
+			<u-loading-icon></u-loading-icon>
+		</view>
+
 		<!-- 是否已经到底部了 -->
 		<u-divider v-if="isEnd" text="到底啦~~~"></u-divider>
 
@@ -51,6 +57,7 @@
 				pageCount: 0, // 总页数
 				currentPage: 1, // 当前页
 				isEnd: false, // 是否到底部了
+				isloading: false, // 是否在加载中
 				pageParams: {
 					page: 1,
 					pageSize: 10,
@@ -133,6 +140,7 @@
 			},
 			// 获取文章列表
 			async getArticleListAsync() {
+				this.isloading = true;
 				let params = {
 					menuId: this.categoryMenuId,
 					sort: this.sort,
@@ -147,10 +155,12 @@
 					this.pageCount = data.data.page.pageCount; // 总页数
 					this.currentPage = data.data.page.currentPage; // 当前页
 					this.isEnd = data.data.page.isEnd;
+					this.isloading = false;
 					uni.stopPullDownRefresh();
 				} else {
 					uni.$u.toast(data.message)
 					uni.stopPullDownRefresh();
+					this.isloading = false;
 				}
 			},
 			// 筛选
@@ -178,10 +188,8 @@
 
 		.article-list {
 			width: 100%;
-			background-color: $uni-bg-color;
 			margin-top: 20rpx;
 			border-radius: $uni-border-radius-base;
-			padding: 0 20rpx;
 			box-sizing: border-box;
 
 			.screen-box {
@@ -189,6 +197,8 @@
 				height: 40px;
 				margin-bottom: 10px;
 				background: $uni-bg-color;
+				padding: 0 20rpx;
+				box-sizing: border-box;
 
 				ul {
 					display: flex;
@@ -220,5 +230,11 @@
 				}
 			}
 		}
+	}
+	.loading-box {
+		height: 100rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 </style>

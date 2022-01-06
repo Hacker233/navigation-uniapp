@@ -77,10 +77,14 @@
 	.article-list-card {
 		width: 100%;
 		height: 280rpx;
-		border-bottom: 1px solid #ccc;
-		margin-bottom: 15px;
+		padding: 0 20rpx;
+		box-sizing: border-box;
+		background-color: $uni-bg-color;
+		margin-bottom: 20rpx;
 		display: flex;
 		flex-direction: column;
+		border-radius: $uni-border-radius-base;
+		box-shadow: 0 13px 15px rgba(31, 45, 61, 0.15);
 
 		.top-auther {
 			height: 45px;
