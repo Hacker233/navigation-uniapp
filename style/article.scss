@@ -1,0 +1,86 @@
+.wang-content ul,
+.wang-content ol {
+  margin: 0;
+  padding: 0;
+}
+.wang-content ul li,
+.wang-content ol li {
+  line-height: 2;
+}
+.wang-content a {
+  text-decoration: none;
+}
+.wang-content {
+	color: $uni-text-color;
+	line-height: 2;
+	h1 {
+		font-size: $uni-font-size-lg;
+		margin: 26rpx 0;
+	}
+	p {
+		margin: 16rpx 0;
+		font-size: $uni-font-size-base;
+		line-height: 2;
+	}
+	img {
+	  max-width: 100%;
+	  cursor: pointer;
+	  margin: 10px 0;
+	  transition: all 0.3s;
+	}
+	/* 表格 */
+	table {
+		border-collapse: collapse;
+	}
+
+	table th,
+	table td {
+		border: 1px solid #ccc;
+		min-width: 50px;
+		height: 20px;
+		text-align: left;
+	}
+
+	table th {
+		background-color: #f1f1f1;
+		text-align: center;
+	}
+
+	/* 代码块 */
+	pre>code {
+		display: block;
+		border: 1px solid hsl(0, 0%, 91%);
+		border-radius: 4px 4px;
+		text-indent: 0;
+		background-color: #fafafa;
+		padding: 10px;
+		font-size: 14px;
+	}
+
+	/* 引用 */
+	blockquote {
+		display: block;
+		border-left: 16rpx solid #d0e5f2;
+		padding: 20rpx 20rpx;
+		background-color: #f1f1f1;
+		line-height: 2;
+		text-align: justify;
+		font-size: $uni-font-size-sm;
+	}
+
+	/* 列表 */
+	ul,
+	ol {
+		margin: 10px 0 10px 20px;
+	}
+
+	/* 分割线 */
+	hr {
+		display: block;
+		width: 90%;
+		margin: 20px auto;
+		border: 0;
+		height: 1px;
+		background-color: #ccc;
+	}
+}

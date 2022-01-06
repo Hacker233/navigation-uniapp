@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "prismjs": "^1.25.0",
+    "uniapp-route-guards": "^1.0.7"
+  }
+}
