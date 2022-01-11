@@ -9,19 +9,24 @@
 		}, {
 			"path": "pages/article/index",
 			"style": {
-				"navigationBarTitleText": "福利",
+				"navigationBarTitleText": "文章",
 				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/create/index",
 			"style": {
-				"navigationBarTitleText": "福利",
+				"navigationBarTitleText": "资源",
 				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/person/index",
 			"style": {
 				"navigationBarTitleText": "个人中心"
+			}
+		}, {
+			"path": "pages/sourceInfo/index",
+			"style": {
+				"navigationBarTitleText": "资源详情"
 			}
 		}, {
 			"path": "pages/website/index",
@@ -62,15 +67,15 @@
 			"pagePath": "pages/index/index",
 			"selectedIconPath": "static/tabBar/home-select.png",
 			"iconPath": "static/tabBar/home.png",
-			"text": "首页"
+			"text": "网站"
 		}, {
 			"pagePath": "pages/article/index",
-			"text": "福利",
+			"text": "文章",
 			"iconPath": "static/tabBar/article.png",
 			"selectedIconPath": "static/tabBar/article-select.png"
 		}, {
 			"pagePath": "pages/create/index",
-			"text": "福利",
+			"text": "资源",
 			"iconPath": "static/tabBar/chat.png",
 			"selectedIconPath": "static/tabBar/chat-slelect.png"
 		}, {

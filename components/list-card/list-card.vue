@@ -6,7 +6,7 @@
 				<u-avatar :src="articleInfo.article_auther_avatar"></u-avatar>
 				<view class="userInfo">
 					<span class="username">{{ articleInfo.article_auther }}</span>
-					<span class="create-date">{{ articleInfo.article_date }}</span>
+					<span class="create-date">{{ formatTime(articleInfo.article_date) }}</span>
 				</view>
 			</view>
 			<!-- 文章标签 -->
@@ -50,6 +50,9 @@
 	</view>
 </template>
 <script>
+	import {
+		showtime
+	} from "@/utils/index.js"
 	export default {
 		// 样式穿透
 		options: {
@@ -64,6 +67,11 @@
 			},
 		},
 		methods: {
+			// 格式化时间
+			formatTime(time) {
+				console.log("tiem", time,showtime(time))
+				return showtime(time)
+			},
 			// 跳转至文章详情
 			toArticleDetail() {
 				uni.navigateTo({

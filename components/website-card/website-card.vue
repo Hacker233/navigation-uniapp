@@ -83,6 +83,8 @@
 				justify-content: flex-start;
 				box-sizing: border-box;
 				border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+				word-break: break-word;
+				overflow: hidden;
 
 				.text-title {
 					color: $uni-color-title;

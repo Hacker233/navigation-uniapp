@@ -32,7 +32,7 @@
 			</view>
 			<!-- 评论主体-顶部数量及发表评论按钮-end -->
 			<!-- 评论列表-start -->
-			<view class="comment-box" v-for="(item, index) in commentData.comment">
+			<view class="comment-box" v-for="(item, index) in commentData.comment" :key="index">
 				<view class="comment-box-item">
 					<view>
 						<image :src="item.avatarUrl || emptyAvatar" mode="aspectFill" class="avatar"></image>
@@ -84,7 +84,7 @@
 						<!-- 父评论体-end -->
 						<!-- 子评论列表-start -->
 						<view class="comment-sub-box">
-							<view class="comment-sub-item" v-for="each in item.children">
+							<view class="comment-sub-item" v-for="each in item.children" :key="index">
 								<view>
 									<image :src="each.avatarUrl || emptyAvatar" mode="aspectFill" class="avatar">
 									</image>
