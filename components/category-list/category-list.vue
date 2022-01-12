@@ -16,6 +16,10 @@
 
 <script>
 	export default {
+		// 样式穿透
+		options: {
+			styleIsolation: 'shared'
+		},
 		props: {
 			categoryList: {
 				type: Array,
@@ -73,6 +77,7 @@
 				font-size: $uni-font-size-base;
 				letter-spacing: 3rpx;
 				transition: all 0.3s;
+				margin: 20rpx 18rpx 20rpx 0;
 
 				.iconfont {
 					margin-right: 6rpx;
@@ -80,7 +85,7 @@
 			}
 
 			.active {
-				box-shadow: 0 8px 10px rgba(32, 160, 255, 30%);
+				box-shadow: 0 6px 8px rgba(32, 160, 255, 30%);
 				background: #20a0ff;
 				color: $uni-bg-color;
 				border: 1px solid $uni-color-primary;

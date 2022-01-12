@@ -8,7 +8,7 @@
 		<!-- 分类筛选栏 -->
 		<u-sticky>
 			<view class="category">
-				<category-list :categoryList="categoryList" @chooseCategory="chooseCategory"></category-list>
+				<category-list ref="category" :categoryList="categoryList" @chooseCategory="chooseCategory"></category-list>
 			</view>
 		</u-sticky>
 
@@ -65,6 +65,8 @@
 		},
 		//监听下拉刷新
 		onPullDownRefresh() {
+			// console.log("category",this.$refs.category.current)
+			this.$refs.category.current = 0;
 			this.getSocategoryAll();
 		},
 		onPageScroll(e) {

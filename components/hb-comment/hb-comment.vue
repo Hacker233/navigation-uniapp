@@ -1,9 +1,9 @@
 <template>
 	<view class="hb-comment">
 		<!-- 阅读数-start -->
-		<view>
+		<view class="comment-nums-top">
 			<i class="iconfont pig-liulan"></i>
-			<span class="top-read">{{commentData.readNumer}}</span>
+			<text class="top-read">{{commentData.readNumer}}</text>
 		</view>
 		<!-- 阅读数-end -->
 		<!-- 阅读数下边那条线-start -->
@@ -42,8 +42,8 @@
 							<view class="zan-box" @click="like(item.id)">
 								<span
 									:class="item.hasLike ? 'isLike' : 'notLike'">{{item.likeNum == 0 ? '抢首赞' : item.likeNum}}</span>
-									<i v-if="!item.hasLike" class="iconfont pig-changyong_dianzan"></i>
-									<i v-else class="iconfont pig-changyong_dianzan like-active"></i>
+								<i v-if="!item.hasLike" class="iconfont pig-changyong_dianzan"></i>
+								<i v-else class="iconfont pig-changyong_dianzan like-active"></i>
 							</view>
 						</view>
 						<view class="comment-main-content">
@@ -186,7 +186,7 @@
 		methods: {
 			// 格式化时间
 			formatTime(time) {
-				console.log("tiem", time,showtime(time))
+				console.log("tiem", time, showtime(time))
 				return showtime(time)
 			},
 			// 初始化评论
@@ -335,6 +335,11 @@
 <style lang="scss" scoped>
 	.hb-comment {
 		padding: 10rpx;
+
+		.comment-nums-top {
+			display: flex;
+			align-items: center;
+		}
 	}
 
 	.top-read {
@@ -541,7 +546,13 @@
 		justify-content: space-between;
 		align-items: center;
 	}
+
 	.like-active {
 		color: $uni-color-primary;
+	}
+
+	.zan-box {
+		display: flex;
+		align-items: center;
 	}
 </style>

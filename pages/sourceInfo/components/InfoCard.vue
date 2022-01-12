@@ -24,8 +24,9 @@
 				<text class="title">
 					截图
 				</text>
-				<img :src="item.response.data.fileUrl" v-for="(item,index) in sourceInfo.source_screen"
-					:key="index"></img>
+
+				<img :src="item.response.data.fileUrl" v-for="(item,index) in sourceInfo.source_screen" :key="index"
+					mode="widthFix"></img>
 			</view>
 			<!-- 资源发布时间 -->
 			<view class="source-tiem">
@@ -353,6 +354,11 @@
 
 				/deep/ .u-link {
 					flex: inherit;
+					display: flex;
+					width: 100%;
+					justify-content: center;
+					height: 100%;
+					align-items: center;
 				}
 			}
 		}
