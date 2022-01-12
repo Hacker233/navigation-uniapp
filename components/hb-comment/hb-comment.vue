@@ -2,15 +2,7 @@
 	<view class="hb-comment">
 		<!-- 阅读数-start -->
 		<view>
-			<svg t="1637218251762" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-				p-id="8464" width="14" height="14">
-				<path
-					d="M515.2 224c-307.2 0-492.8 313.6-492.8 313.6s214.4 304 492.8 304 492.8-304 492.8-304S822.4 224 515.2 224zM832 652.8c-102.4 86.4-211.2 140.8-320 140.8s-217.6-51.2-320-140.8c-35.2-32-70.4-64-99.2-99.2-6.4-6.4-9.6-12.8-16-19.2 3.2-6.4 9.6-12.8 12.8-19.2 25.6-35.2 57.6-70.4 92.8-102.4 99.2-89.6 208-144 329.6-144s230.4 54.4 329.6 144c35.2 32 64 67.2 92.8 102.4 3.2 6.4 9.6 12.8 12.8 19.2-3.2 6.4-9.6 12.8-16 19.2C902.4 585.6 870.4 620.8 832 652.8z"
-					p-id="8465" fill="#666666"></path>
-				<path
-					d="M512 345.6c-96 0-169.6 76.8-169.6 169.6 0 96 76.8 169.6 169.6 169.6 96 0 169.6-76.8 169.6-169.6C681.6 422.4 604.8 345.6 512 345.6zM512 640c-67.2 0-121.6-54.4-121.6-121.6 0-67.2 54.4-121.6 121.6-121.6 67.2 0 121.6 54.4 121.6 121.6C633.6 582.4 579.2 640 512 640z"
-					p-id="8466" fill="#666666"></path>
-			</svg>
+			<i class="iconfont pig-liulan"></i>
 			<span class="top-read">{{commentData.readNumer}}</span>
 		</view>
 		<!-- 阅读数-end -->
@@ -52,19 +44,6 @@
 									:class="item.hasLike ? 'isLike' : 'notLike'">{{item.likeNum == 0 ? '抢首赞' : item.likeNum}}</span>
 									<i v-if="!item.hasLike" class="iconfont pig-changyong_dianzan"></i>
 									<i v-else class="iconfont pig-changyong_dianzan like-active"></i>
-								<!-- <svg v-if="!item.hasLike" t="1637218371986" class="icon" viewBox="0 0 1024 1024"
-									version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10035" width="14"
-									height="14">
-									<path
-										d="M857.28 344.992h-264.832c12.576-44.256 18.944-83.584 18.944-118.208 0-78.56-71.808-153.792-140.544-143.808-60.608 8.8-89.536 59.904-89.536 125.536v59.296c0 76.064-58.208 140.928-132.224 148.064l-117.728-0.192A67.36 67.36 0 0 0 64 483.04V872c0 37.216 30.144 67.36 67.36 67.36h652.192a102.72 102.72 0 0 0 100.928-83.584l73.728-388.96a102.72 102.72 0 0 0-100.928-121.824zM128 872V483.04c0-1.856 1.504-3.36 3.36-3.36H208v395.68H131.36A3.36 3.36 0 0 1 128 872z m767.328-417.088l-73.728 388.96a38.72 38.72 0 0 1-38.048 31.488H272V476.864a213.312 213.312 0 0 0 173.312-209.088V208.512c0-37.568 12.064-58.912 34.72-62.176 27.04-3.936 67.36 38.336 67.36 80.48 0 37.312-9.504 84-28.864 139.712a32 32 0 0 0 30.24 42.496h308.512a38.72 38.72 0 0 1 38.048 45.888z"
-										p-id="10036" fill="#999999"></path>
-								</svg> -->
-								<!-- <svg v-else t="1637218176976" class="icon" viewBox="0 0 1024 1024" version="1.1"
-									xmlns="http://www.w3.org/2000/svg" p-id="6065" width="14" height="14">
-									<path
-										d="M64 483.04V872c0 37.216 30.144 67.36 67.36 67.36H192V416.32l-60.64-0.64A67.36 67.36 0 0 0 64 483.04zM857.28 344.992l-267.808 1.696c12.576-44.256 18.944-83.584 18.944-118.208 0-78.56-68.832-155.488-137.568-145.504-60.608 8.8-67.264 61.184-67.264 126.816v59.264c0 76.064-63.84 140.864-137.856 148L256 416.96v522.4h527.552a102.72 102.72 0 0 0 100.928-83.584l73.728-388.96a102.72 102.72 0 0 0-100.928-121.824z"
-										p-id="6066" fill="#2d8cf0"></path>
-								</svg> -->
 							</view>
 						</view>
 						<view class="comment-main-content">
@@ -77,7 +56,7 @@
 							</span>
 						</view>
 						<view class="comment-main-foot">
-							<view class="foot-time">{{item.createTime}}</view>
+							<view class="foot-time">{{formatTime(item.createTime)}}</view>
 							<view class="foot-btn" @click="reply(item.nickName,item.nickName,item.id)">回复</view>
 							<view class="foot-btn" v-if="item.owner" @click="confirmDelete(item.id)">删除</view>
 						</view>
@@ -95,20 +74,8 @@
 										<view class="zan-box" @click="like(each.id)">
 											<span
 												:class="each.hasLike ? 'isLike' : 'notLike'">{{each.likeNum == 0 ? '抢首赞' : each.likeNum}}</span>
-											<svg v-if="!each.hasLike" t="1637218371986" class="icon"
-												viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-												p-id="10035" width="14" height="14">
-												<path
-													d="M857.28 344.992h-264.832c12.576-44.256 18.944-83.584 18.944-118.208 0-78.56-71.808-153.792-140.544-143.808-60.608 8.8-89.536 59.904-89.536 125.536v59.296c0 76.064-58.208 140.928-132.224 148.064l-117.728-0.192A67.36 67.36 0 0 0 64 483.04V872c0 37.216 30.144 67.36 67.36 67.36h652.192a102.72 102.72 0 0 0 100.928-83.584l73.728-388.96a102.72 102.72 0 0 0-100.928-121.824zM128 872V483.04c0-1.856 1.504-3.36 3.36-3.36H208v395.68H131.36A3.36 3.36 0 0 1 128 872z m767.328-417.088l-73.728 388.96a38.72 38.72 0 0 1-38.048 31.488H272V476.864a213.312 213.312 0 0 0 173.312-209.088V208.512c0-37.568 12.064-58.912 34.72-62.176 27.04-3.936 67.36 38.336 67.36 80.48 0 37.312-9.504 84-28.864 139.712a32 32 0 0 0 30.24 42.496h308.512a38.72 38.72 0 0 1 38.048 45.888z"
-													p-id="10036" fill="#999999"></path>
-											</svg>
-											<svg v-else t="1637218176976" class="icon" viewBox="0 0 1024 1024"
-												version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6065" width="14"
-												height="14">
-												<path
-													d="M64 483.04V872c0 37.216 30.144 67.36 67.36 67.36H192V416.32l-60.64-0.64A67.36 67.36 0 0 0 64 483.04zM857.28 344.992l-267.808 1.696c12.576-44.256 18.944-83.584 18.944-118.208 0-78.56-68.832-155.488-137.568-145.504-60.608 8.8-67.264 61.184-67.264 126.816v59.264c0 76.064-63.84 140.864-137.856 148L256 416.96v522.4h527.552a102.72 102.72 0 0 0 100.928-83.584l73.728-388.96a102.72 102.72 0 0 0-100.928-121.824z"
-													p-id="6066" fill="#2d8cf0"></path>
-											</svg>
+											<i v-if="!each.hasLike" class="iconfont pig-changyong_dianzan"></i>
+											<i v-else class="iconfont pig-changyong_dianzan like-active"></i>
 										</view>
 									</view>
 									<view class="comment-main-content">
@@ -121,7 +88,7 @@
 										</span>
 									</view>
 									<view class="comment-main-foot">
-										<view class="foot-time">{{each.createTime}}</view>
+										<view class="foot-time">{{formatTime(each.createTime)}}</view>
 										<view class="foot-btn" @click="reply(item.nickName,each.nickName,item.id)">
 											回复</view>
 										<view class="foot-btn" v-if="each.owner" @click="confirmDelete(each.id)">删除
@@ -148,12 +115,12 @@
 			<view class="comment-add" @click.stop.prevent="stopPrevent" :style="'bottom:' + KeyboardHeight + 'px'">
 				<view class="comment-submit">
 					<view class="btn-click cancel" @click="closeInput">取消</view>
-					<view>
+					<!-- <view>
 						<view class="replayTag" v-show="showTag">
 							<view>回复在 {{pUser}} 的评论下</view>
 							<view @click="tagClose" class="replyTagClose">×</view>
 						</view>
-					</view>
+					</view> -->
 					<view>
 						<view class="btn-click" @click="add">发布</view>
 					</view>
@@ -168,6 +135,9 @@
 </template>
 
 <script>
+	import {
+		showtime
+	} from "@/utils/index.js"
 	export default {
 		name: 'hb-comment',
 		props: {
@@ -214,6 +184,11 @@
 			})
 		},
 		methods: {
+			// 格式化时间
+			formatTime(time) {
+				console.log("tiem", time,showtime(time))
+				return showtime(time)
+			},
 			// 初始化评论
 			init(cmData) {
 				// for (var i in cmData.comment) {
@@ -402,17 +377,19 @@
 
 	.comment-main {
 		padding-left: 20rpx;
+		display: flex;
+		flex-direction: column;
+		flex: 1;
 	}
 
 	.comment-main-top {
-		width: 600rpx;
+		flex: 1;
 		padding-top: 6rpx;
 		display: flex;
 		justify-content: space-between;
 	}
 
 	.sub-comment-main-top {
-		width: 510rpx;
 		padding-top: 6rpx;
 		display: flex;
 		justify-content: space-between;
@@ -556,8 +533,9 @@
 	}
 
 	.comment-submit {
-		padding: 5rpx 20rpx 0 20rpx;
+		padding: 0 20rpx;
 		border-bottom: 1px dashed #ddd;
+		box-sizing: border-box;
 		width: 100%;
 		display: flex;
 		justify-content: space-between;

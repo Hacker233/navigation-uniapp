@@ -33,6 +33,10 @@
 		showtime
 	} from "@/utils/index.js"
 	export default {
+		// 样式穿透
+		options: {
+			styleIsolation: 'shared'
+		},
 		props: {
 			sourceInfo: {
 				type: Object,
@@ -59,17 +63,22 @@
 
 <style lang="scss">
 	.card-box {
-		width: 47%;
+		width: 44vw;
 		height: 500rpx;
 		box-shadow: 0 13px 15px rgba(31, 45, 61, 0.1);
 		border-radius: 26rpx;
 		overflow: hidden;
 		margin: 20rpx 0;
+		display: flex;
+		flex-direction: column;
 
 		.cover-box {
 			width: 100%;
 			height: 300rpx;
 			overflow: hidden;
+			/deep/ .u-image__image {
+				width: 100% !important;
+			}
 		}
 
 		.source-title {
@@ -116,6 +125,7 @@
 			justify-content: space-between;
 			height: 44rpx;
 			box-sizing: border-box;
+			flex: 1;
 
 			.views {
 				font-size: 12px;

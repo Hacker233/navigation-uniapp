@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2796628 */
-  src: url('//at.alicdn.com/t/font_2796628_c37du5tottw.woff2?t=1640931658476') format('woff2'),
-       url('//at.alicdn.com/t/font_2796628_c37du5tottw.woff?t=1640931658476') format('woff'),
-       url('//at.alicdn.com/t/font_2796628_c37du5tottw.ttf?t=1640931658476') format('truetype');
+  src: url('~@/static/fonts/iconfont.woff2?t=1641902664642') format('woff2'),
+       url('~@/static/fonts/iconfont.woff?t=1641902664642') format('woff'),
+       url('~@/static/fonts/iconfont.ttf?t=1641902664642') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,18 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.pig-anzhuo:before {
+  content: "\e60f";
+}
+
+.pig-dianshi:before {
+  content: "\e612";
+}
+
+.pig-jiaocheng:before {
+  content: "\e613";
 }
 
 .pig-chenggong:before {
@@ -556,3 +568,4 @@
 .pig-wangzhan:before {
   content: "\e7fe";
 }
+

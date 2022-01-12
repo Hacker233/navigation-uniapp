@@ -21,7 +21,7 @@
 			</view>
 		</view>
 		<!-- 退出登录 -->
-		<view class="login-out">
+		<view class="login-out" v-if="userInfo">
 			<u-button text="退出登录" color="linear-gradient(to right, rgb(170, 170, 127), rgb(213, 51, 186))"
 				@click="loginOut"></u-button>
 		</view>

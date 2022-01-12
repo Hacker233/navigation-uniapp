@@ -92,7 +92,8 @@
 				isLike: false, // 是否点赞
 				articleLikes: 0, // 点赞数
 				commentData: null, // 评论列表
-				commentList: []
+				commentList: [],
+				commentType: 'article' // 评论类型
 			};
 		},
 
@@ -126,6 +127,7 @@
 			async getCommentListAsync() {
 				let params = {
 					article_id: this.articleId,
+					commentType: this.commentType
 				};
 				const data = await getCommentList(params);
 				if (data.code === "00000") {
@@ -165,11 +167,15 @@
 				let params = {
 					articleId: this.articleId,
 					pId: item.pId,
-					content: item.content
+					content: item.content,
+					commentType: this.commentType
 				}
 				const data = await addComment(params);
 				if (data.code === "00000") {
-					console.log("评论成功", data.data);
+					uni.showToast({
+						icon: "success",
+						title: "评论成功"
+					})
 					this.getCommentListAsync();
 					this.$refs.hbComment.closeInput();
 				} else {
@@ -183,7 +189,8 @@
 			async del(item) {
 				console.log("删除评论", item);
 				let params = {
-					id: item
+					id: item,
+					commentType: this.commentType
 				}
 				const data = await deleteComment(params);
 				if (data.code === "00000") {
@@ -202,7 +209,8 @@
 			// 点赞评论
 			async like(item) {
 				let params = {
-					id: item
+					id: item,
+					commentType: this.commentType
 				}
 				const data = await likeComment(params);
 				if (data.code === "00000") {

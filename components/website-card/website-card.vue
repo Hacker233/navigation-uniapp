@@ -25,10 +25,10 @@
 						<view class="bottom">
 							<view class="view-num">
 								<i class="iconfont pig-liulan"></i>
-								<text>{{webItem.website_views}}</text>
+								<text class="text">{{webItem.website_views}}</text>
 							</view>
 							<view class="web-tags">
-								<text>{{webItem.website_tags}}</text>
+								<text class="tags">{{webItem.website_tags}}</text>
 							</view>
 						</view>
 					</view>
@@ -145,7 +145,7 @@
 						overflow: hidden;
 						min-height: 60rpx;
 
-						text {
+						.abstarct {
 							font-size: $uni-font-size-sm;
 							color: $uni-text-color-grey;
 							text-overflow: ellipsis;
@@ -170,13 +170,13 @@
 							font-size: $uni-font-size-sm;
 							color: $uni-text-color-grey;
 
-							text {
+							.text {
 								margin-left: 6rpx;
 							}
 						}
 
 						.web-tags {
-							text {
+							.tags {
 								font-size: $uni-font-size-sm;
 								display: flex;
 								align-items: center;

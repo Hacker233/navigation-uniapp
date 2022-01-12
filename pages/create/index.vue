@@ -138,7 +138,7 @@
 		width: 100%;
 
 		.category {
-			background-color: #eee;
+			background-color: #fff;
 		}
 
 		.source-card-box {

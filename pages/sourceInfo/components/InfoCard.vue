@@ -25,7 +25,7 @@
 					截图
 				</text>
 				<img :src="item.response.data.fileUrl" v-for="(item,index) in sourceInfo.source_screen"
-					:key="indx"></img>
+					:key="index"></img>
 			</view>
 			<!-- 资源发布时间 -->
 			<view class="source-tiem">
@@ -33,18 +33,31 @@
 			</view>
 			<!-- 点赞等信息 -->
 			<view class="source-views">
+				<!-- 浏览量 -->
 				<view class="views">
 					<i class="iconfont pig-liulan"></i>
 					<u--text type="info" :text="sourceInfo.source_views"></u--text>
+				</view>
+				<!-- 评论量 -->
+				<view class="views">
+					<i class="iconfont pig-changyong_xiaoxi"></i>
+					<u--text type="info" :text="commentData.commentSize"></u--text>
 				</view>
 			</view>
 		</view>
 		<!-- 资源下载链接 -->
 		<view class="link-button">
-			<u-button color="linear-gradient(to right, rgb(93, 188, 216), rgb(213, 51, 186))"
-				v-for="(item,index) in sourceInfo.source_download" :key="index">
-				<u-link color="#fff" :href="item.link" :text="item.name"></u-link>
-			</u-button>
+			<view class="link-bt" v-for="(item,index) in sourceInfo.source_download" :key="index">
+				<u-link v-if="item.pass" color="#fff" :href="item.link" :text="`${item.name}(提取码:${item.pass})`">
+				</u-link>
+				<u-link v-else color="#fff" :href="item.link" :text="`${item.name}`"></u-link>
+			</view>
+		</view>
+
+		<!-- 评论组件 -->
+		<view class="comment-box-wrapper">
+			<hb-comment ref="hbComment" @add="add" @del="del" @like="like" @focusOn="focusOn" :deleteTip="'确认删除？'"
+				:cmData="commentData" v-if="commentData"></hb-comment>
 		</view>
 	</view>
 </template>
@@ -56,7 +69,17 @@
 	import {
 		showtime
 	} from "@/utils/index.js"
+	import {
+		getCommentList,
+		addComment,
+		likeComment,
+		deleteComment
+	} from "@/http/api/comment.js";
 	export default {
+		// 样式穿透
+		options: {
+			styleIsolation: 'shared'
+		},
 		props: {
 			sourceId: {
 				type: String,
@@ -65,11 +88,14 @@
 		},
 		data() {
 			return {
-				sourceInfo: ''
+				sourceInfo: '',
+				commentData: null, // 评论列表
+				commentList: [],
+				commentType: 'source' // 评论类型
 			}
 		},
 		mounted() {
-			this.init();
+			this.init(); // 获取资源基本信息
 		},
 		methods: {
 			// 格式化时间
@@ -84,13 +110,119 @@
 				const data = await querySourceById(params);
 				if (data.code === "00000") {
 					this.sourceInfo = data.data; // 资源信息
+					this.getCommentListAsync(); // 获取文章评论列表
 				} else {
 					uni.showToast({
 						icon: "error",
 						title: data.message
 					})
 				}
-			}
+			},
+			// 获取所有评论列表
+			async getCommentListAsync() {
+				let params = {
+					article_id: this.sourceId,
+					commentType: this.commentType
+				};
+				const data = await getCommentList(params);
+				if (data.code === "00000") {
+					this.commentList = data.data.commentList;
+					this.commentData = {
+						"readNumer": this.sourceInfo.source_views,
+						"commentSize": data.data.commentList.length,
+						"comment": this.getTree(data.data.commentList)
+					}
+				} else {
+					uni.showToast({
+						icon: "error",
+						title: data.message
+					})
+				}
+			},
+			// 格式化评论列表
+			getTree(data) {
+				let result = [];
+				let map = {};
+				data.forEach(item => {
+					map[item.id] = item;
+				});
+				data.forEach(item => {
+					let parent = map[item.parentId];
+					if (parent) {
+						(parent.children || (parent.children = [])).push(item);
+					} else {
+						result.push(item);
+					}
+				});
+				console.log("格式化之后", result)
+				return result;
+			},
+			// 添加评论
+			async add(item) {
+				let params = {
+					articleId: this.sourceId,
+					pId: item.pId,
+					content: item.content,
+					commentType: this.commentType
+				}
+				const data = await addComment(params);
+				if (data.code === "00000") {
+					console.log("评论成功", data.data);
+					this.getCommentListAsync();
+					this.$refs.hbComment.closeInput();
+				} else {
+					uni.showToast({
+						icon: "error",
+						title: data.message
+					})
+				}
+			},
+			// 删除评论
+			async del(item) {
+				console.log("删除评论", item);
+				let params = {
+					id: item,
+					commentType: this.commentType
+				}
+				const data = await deleteComment(params);
+				if (data.code === "00000") {
+					uni.showToast({
+						icon: "success",
+						title: "删除成功"
+					})
+					this.getCommentListAsync(); // 点赞成功刷新评论
+				} else {
+					uni.showToast({
+						icon: "error",
+						title: data.message
+					})
+				}
+			},
+			// 点赞评论
+			async like(item) {
+				let params = {
+					id: item,
+					commentType: this.commentType
+				}
+				const data = await likeComment(params);
+				if (data.code === "00000") {
+					this.getCommentListAsync(); // 点赞成功刷新评论
+				} else {
+					uni.showToast({
+						icon: "error",
+						title: data.message
+					})
+				}
+			},
+			// 聚焦回复
+			focusOn() {
+				// 未登录
+				if (!this.$store.state.token) {
+					uni.navigateTo({
+						url: "/pages/login/login"
+					})
+				}
+			},
 		}
 	}
 </script>
@@ -187,10 +319,15 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					flex: 1;
 
 					.iconfont {
 						margin-right: 10rpx;
 						font-size: $uni-font-size-lg;
+					}
+
+					/deep/ .u-text {
+						flex: initial !important;
 					}
 				}
 			}
@@ -204,14 +341,25 @@
 			flex-direction: column;
 			padding: 40rpx 40rpx 0 40rpx;
 
-			/deep/ .u-button {
+			.link-bt {
+				height: 100rpx;
+				width: 100%;
+				background: linear-gradient(to right, rgb(93, 188, 216), rgb(213, 51, 186));
 				margin-bottom: 40rpx;
-				.u-link {
-					width: 100%;
-					display: flex;
-					justify-content: center;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border-radius: $uni-border-radius-lg;
+
+				/deep/ .u-link {
+					flex: inherit;
 				}
 			}
+		}
+
+		.comment-box-wrapper {
+			background-color: $uni-bg-color;
+			margin-top: 20rpx;
 		}
 	}
 </style>

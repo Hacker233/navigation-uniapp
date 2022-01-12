@@ -85,24 +85,20 @@
 					//判断是否加载中，避免重复点击请求
 					return false;
 				}
-				if (this.phoneData.length == "") {
+				if (!this.phoneData) {
 					uni.showToast({
-						icon: 'none',
-						position: 'bottom',
+						icon: 'error',
 						title: '用户名不能为空'
 					});
 					return;
 				}
 				if (this.passData.length < 5) {
 					uni.showToast({
-						icon: 'none',
-						position: 'bottom',
+						icon: 'error',
 						title: '密码不正确'
 					});
 					return;
 				}
-
-				console.log("登录成功")
 
 				_this.isRotate = true
 				setTimeout(function() {

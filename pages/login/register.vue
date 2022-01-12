@@ -66,21 +66,33 @@
 			},
 			// 发送验证码
 			async getVerCode() {
-				console.log("获取验证码")
-				this.$refs.runCode.$emit('runCode'); //触发倒计时（一般用于请求成功验证码后调用）
-				let params = {
-					email: this.phoneData,
-				};
-				const data = await emailCode(params);
-				if (data.code === "00000") {
+				// 判断邮箱格式
+				if (!this.phoneData) {
 					uni.showToast({
-						icon: 'success',
-						title: '验证码发送成功',
+						icon: 'error',
+						title: "邮箱不能为空",
 					});
+				} else if (this.phoneData.match(/^\w+@\w+\.\w+$/i)) {
+					this.$refs.runCode.$emit('runCode'); //触发倒计时（一般用于请求成功验证码后调用）
+					let params = {
+						email: this.phoneData,
+					};
+					const data = await emailCode(params);
+					if (data.code === "00000") {
+						uni.showToast({
+							icon: 'success',
+							title: '验证码发送成功',
+						});
+					} else {
+						uni.showToast({
+							icon: 'error',
+							title: data.message,
+						});
+					}
 				} else {
 					uni.showToast({
 						icon: 'error',
-						title: data.message,
+						title: "邮箱格式错误",
 					});
 				}
 			},
@@ -91,38 +103,41 @@
 					//判断是否加载中，避免重复点击请求
 					return false;
 				}
-				// if (this.showAgree == false) {
-				// 	uni.showToast({
-				// 		icon: 'none',
-				// 		position: 'bottom',
-				// 		title: '请先同意《协议》'
-				// 	});
-				// 	return false;
-				// }
-				// if (this.phoneData.length != 11) {
-				// 	uni.showToast({
-				// 		icon: 'none',
-				// 		position: 'bottom',
-				// 		title: '手机号不正确'
-				// 	});
-				// 	return false;
-				// }
-				// if (this.passData.length < 6) {
-				// 	uni.showToast({
-				// 		icon: 'none',
-				// 		position: 'bottom',
-				// 		title: '密码不正确'
-				// 	});
-				// 	return false;
-				// }
-				// if (this.verCode.length != 4) {
-				// 	uni.showToast({
-				// 		icon: 'none',
-				// 		position: 'bottom',
-				// 		title: '验证码不正确'
-				// 	});
-				// 	return false;
-				// }
+				if (!this.username) {
+					uni.showToast({
+						icon: 'error',
+						title: '用户名不能为空'
+					});
+					return false;
+				}
+				if (!this.phoneData) {
+					uni.showToast({
+						icon: 'error',
+						title: '邮箱不能为空'
+					});
+					return false;
+				}
+				if (this.passData.length < 6) {
+					uni.showToast({
+						icon: 'error',
+						title: '密码不低于6位字符'
+					});
+					return false;
+				}
+				if (!this.passData) {
+					uni.showToast({
+						icon: 'error',
+						title: '密码不能为空'
+					});
+					return false;
+				}
+				if (this.verCode.length != 6) {
+					uni.showToast({
+						icon: 'error',
+						title: '验证码格式错误'
+					});
+					return false;
+				}
 				_this.isRotate = true
 				let params = {
 					username: this.username,
@@ -146,7 +161,7 @@
 				} else {
 					_this.isRotate = false;
 					uni.showToast({
-						icon: 'success',
+						icon: 'error',
 						title: data.message,
 					});
 				}
