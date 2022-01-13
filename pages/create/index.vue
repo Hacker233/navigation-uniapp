@@ -2,13 +2,14 @@
 	<view class="create-box">
 		<!-- 轮播图 -->
 		<view class="u-demo-block">
-			<u-swiper :list="list3" previousMargin="30" nextMargin="30" circular :autoplay="false" radius="5"
-				bgColor="#ffffff"></u-swiper>
+			<u-swiper :list="fileterCarouselList" previousMargin="30" nextMargin="30" circular radius="5"
+				imgMode="scaleToFill" :height="150" bgColor="#ffffff" @click="clickSwiper"></u-swiper>
 		</view>
 		<!-- 分类筛选栏 -->
 		<u-sticky>
 			<view class="category">
-				<category-list ref="category" :categoryList="categoryList" @chooseCategory="chooseCategory"></category-list>
+				<category-list ref="category" :categoryList="categoryList" @chooseCategory="chooseCategory">
+				</category-list>
 			</view>
 		</u-sticky>
 
@@ -36,6 +37,9 @@
 		querySocategoryAll,
 		querySourceByCategory
 	} from '@/http/api/source';
+	import {
+		getCarsouelByPage
+	} from "@/http/api/carsouel.js";
 	export default {
 		// 样式穿透
 		options: {
@@ -46,11 +50,6 @@
 				categoryList: [], // 分类列表
 				sourceCategory: '', // 选择的分类
 				sourceList: [], // 资源列表
-				list3: [
-					'https://cdn.uviewui.com/uview/swiper/swiper3.png',
-					'https://cdn.uviewui.com/uview/swiper/swiper2.png',
-					'https://cdn.uviewui.com/uview/swiper/swiper1.png',
-				],
 				scrollTop: 0,
 				total: 0, // 总条数
 				pageCount: 0, // 总页数
@@ -61,6 +60,8 @@
 					page: 1,
 					pageSize: 10,
 				},
+				carsouelList: [],
+				fileterCarouselList: []
 			}
 		},
 		//监听下拉刷新
@@ -82,7 +83,8 @@
 			this.querySourceByCategoryAsync();
 		},
 		mounted() {
-			this.getSocategoryAll()
+			this.getSocategoryAll();
+			this.getCarsouelByPageAsync()
 		},
 		methods: {
 			// 初始化分类列表
@@ -92,6 +94,19 @@
 					this.categoryList = data.data;
 					this.sourceCategory = this.categoryList[0].socategory_name; // 默认查询第一项
 					this.querySourceByCategoryAsync();
+				} else {
+					uni.$u.toast(data.message)
+				}
+			},
+			// 初始化资源页面轮播图
+			async getCarsouelByPageAsync() {
+				let params = {
+					carsouelPage: 'source',
+				}
+				const data = await getCarsouelByPage(params);
+				if (data.code === "00000") {
+					this.carsouelList = data.data;
+					this.fileterCarouselList = data.data.map(item => item.carsouel_url)
 				} else {
 					uni.$u.toast(data.message)
 				}
@@ -126,6 +141,30 @@
 				};
 				this.sourceCategory = item.socategory_name;
 				this.querySourceByCategoryAsync();
+			},
+			// 点击轮播图切换
+			clickSwiper(index) {
+				let item = this.carsouelList[0];
+				if (!item.carsouel_path) {
+					return
+				} else {
+					let path = item.carsouel_path;
+					if (item.carsouel_params) {
+						let params = JSON.parse(item.carsouel_params);
+						let paramsArr = []
+						Object.keys(params).forEach(key => {
+							paramsArr.push(key + "=" + params[key]);
+						})
+						let paramsStr = paramsArr.join('&');
+						uni.navigateTo({
+							url: `${path}?${paramsStr}`
+						})
+					} else {
+						uni.navigateTo({
+							url: `${path}`
+						})
+					}
+				}
 			}
 		}
 	}

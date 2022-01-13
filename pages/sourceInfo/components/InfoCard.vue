@@ -1,65 +1,74 @@
 <template>
 	<view class="card-info-box">
-		<view class="card-top">
-			<!-- 资源封面图 -->
-			<view class="cover-box">
-				<u--image :showLoading="true" :src="sourceInfo.source_cover" width="120px" height="120px" shape="circle"
-					mode="scaleToFill"></u--image>
-			</view>
-			<!-- 资源标签 -->
-			<view class="source-tags">
-				<u-tag :text="item" type="warning" icon="tags-fill" v-for="(item,index) in sourceInfo.source_tags"
-					:key="index"></u-tag>
-			</view>
-			<!-- 资料标题 -->
-			<view class="source-title">
-				<text>{{sourceInfo.source_title}}</text>
-			</view>
-			<!-- 简介 -->
-			<view class="source_abstract">
-				<u--text type="info" :text="'简介：' + sourceInfo.source_abstract"></u--text>
-			</view>
-			<!-- 资源截图 -->
-			<view class="source-screen">
-				<text class="title">
-					截图
-				</text>
 
-				<img :src="item.response.data.fileUrl" v-for="(item,index) in sourceInfo.source_screen" :key="index"
-					mode="widthFix"></img>
-			</view>
-			<!-- 资源发布时间 -->
-			<view class="source-tiem">
-				<u--text :text="`发布于${formatTime(sourceInfo.source_create_date)}`" type="info"></u--text>
-			</view>
-			<!-- 点赞等信息 -->
-			<view class="source-views">
-				<!-- 浏览量 -->
-				<view class="views">
-					<i class="iconfont pig-liulan"></i>
-					<u--text type="info" :text="sourceInfo.source_views"></u--text>
+		<template v-if="sourceInfo">
+			<view class="card-top">
+				<!-- 资源封面图 -->
+				<view class="cover-box">
+					<u--image :showLoading="true" :src="sourceInfo.source_cover" width="120px" height="120px"
+						shape="circle" mode="scaleToFill"></u--image>
 				</view>
-				<!-- 评论量 -->
-				<view class="views">
-					<i class="iconfont pig-changyong_xiaoxi"></i>
-					<u--text type="info" :text="commentData.commentSize"></u--text>
+				<!-- 资源标签 -->
+				<view class="source-tags">
+					<u-tag :text="item" type="warning" icon="tags-fill" v-for="(item,index) in sourceInfo.source_tags"
+						:key="index"></u-tag>
 				</view>
-			</view>
-		</view>
-		<!-- 资源下载链接 -->
-		<view class="link-button">
-			<view class="link-bt" v-for="(item,index) in sourceInfo.source_download" :key="index">
-				<u-link v-if="item.pass" color="#fff" :href="item.link" :text="`${item.name}(提取码:${item.pass})`">
-				</u-link>
-				<u-link v-else color="#fff" :href="item.link" :text="`${item.name}`"></u-link>
-			</view>
-		</view>
+				<!-- 资料标题 -->
+				<view class="source-title">
+					<text>{{sourceInfo.source_title}}</text>
+				</view>
+				<!-- 简介 -->
+				<view class="source_abstract">
+					<u--text type="info" :text="'简介：' + sourceInfo.source_abstract"></u--text>
+				</view>
+				<!-- 资源截图 -->
+				<view class="source-screen">
+					<text class="title">
+						截图
+					</text>
 
-		<!-- 评论组件 -->
-		<view class="comment-box-wrapper">
-			<hb-comment ref="hbComment" @add="add" @del="del" @like="like" @focusOn="focusOn" :deleteTip="'确认删除？'"
-				:cmData="commentData" v-if="commentData"></hb-comment>
-		</view>
+					<img :src="item.response.data.fileUrl" v-for="(item,index) in sourceInfo.source_screen" :key="index"
+						mode="widthFix"></img>
+				</view>
+				<!-- 资源发布时间 -->
+				<view class="source-tiem">
+					<u--text v-if="sourceInfo" :text="`发布于${formatTime(sourceInfo.source_create_date)}`" type="info">
+					</u--text>
+				</view>
+				<!-- 点赞等信息 -->
+				<view class="source-views">
+					<!-- 浏览量 -->
+					<view class="views">
+						<i class="iconfont pig-liulan"></i>
+						<u--text type="info" :text="sourceInfo.source_views"></u--text>
+					</view>
+					<!-- 评论量 -->
+					<view class="views">
+						<i class="iconfont pig-changyong_xiaoxi"></i>
+						<u--text v-if="commentData" type="info" :text="commentData.commentSize"></u--text>
+					</view>
+				</view>
+			</view>
+			<!-- 资源下载链接 -->
+			<view class="link-button">
+				<view class="link-bt" v-for="(item,index) in sourceInfo.source_download" :key="index">
+					<u-link v-if="item.pass" color="#fff" :href="item.link" :text="`${item.name}(提取码:${item.pass})`">
+					</u-link>
+					<u-link v-else color="#fff" :href="item.link" :text="`${item.name}`"></u-link>
+				</view>
+			</view>
+
+			<!-- 评论组件 -->
+			<view class="comment-box-wrapper">
+				<hb-comment ref="hbComment" @add="add" @del="del" @like="like" @focusOn="focusOn" :deleteTip="'确认删除？'"
+					:cmData="commentData" v-if="commentData"></hb-comment>
+			</view>
+		</template>
+
+		<!-- 骨架屏 -->
+		<template v-else>
+			<u-skeleton :loading="true" :animate="true" rows="5" :rowsHeight="rowsHeight"></u-skeleton>
+		</template>
 	</view>
 </template>
 
@@ -92,6 +101,7 @@
 				sourceInfo: '',
 				commentData: null, // 评论列表
 				commentList: [],
+				rowsHeight: [80, 40, 130, 40, 40],
 				commentType: 'source' // 评论类型
 			}
 		},
