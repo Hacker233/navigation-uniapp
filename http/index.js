@@ -7,9 +7,9 @@ export const request = (options) => {
 	// 设置请求类型
 	if (options.header) {
 		if (options.header["Content-Type"]) {
-			header.ContentType = options.header["Content-Type"]
+			header['Content-Type'] = options.header["Content-Type"]
 		} else {
-			header.ContentType = "application/json"
+			header['Content-Type'] = "application/json"
 		}
 	}
 	// 携带token

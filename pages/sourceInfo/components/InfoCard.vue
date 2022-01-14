@@ -28,7 +28,7 @@
 					</text>
 
 					<img :src="item.response.data.fileUrl" v-for="(item,index) in sourceInfo.source_screen" :key="index"
-						mode="widthFix"></img>
+						mode="widthFix" @click="previewImage(index)"></img>
 				</view>
 				<!-- 资源发布时间 -->
 				<view class="source-tiem">
@@ -128,6 +128,16 @@
 						title: data.message
 					})
 				}
+			},
+			// 预览图片
+			previewImage(index) {
+				let photoList = this.sourceInfo.source_screen.map(item => {
+					return item.response.data.fileUrl;
+				});
+				uni.previewImage({
+					current: index,
+					urls: photoList
+				});
 			},
 			// 获取所有评论列表
 			async getCommentListAsync() {

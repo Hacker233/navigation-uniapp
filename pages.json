@@ -24,6 +24,16 @@
 				"navigationBarTitleText": "个人中心"
 			}
 		}, {
+			"path": "pages/avatar/index",
+			"style": {
+				"navigationBarTitleText": "修改头像"
+			}
+		}, {
+			"path": "pages/signature/index",
+			"style": {
+				"navigationBarTitleText": "签名修改"
+			}
+		}, {
 			"path": "pages/sourceInfo/index",
 			"style": {
 				"navigationBarTitleText": "资源详情"

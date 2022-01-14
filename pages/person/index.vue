@@ -3,7 +3,7 @@
 		<!-- 用户信息区域 -->
 		<view class="userInfo-box">
 			<view class="left">
-				<u-avatar :src="userInfo.avatar" v-if="userInfo" size="80"></u-avatar>
+				<u-avatar :src="userInfo.avatar" v-if="userInfo" size="80" @click="updateAvater"></u-avatar>
 				<u-avatar text="猪" v-else size="80"></u-avatar>
 			</view>
 			<view class="right">
@@ -13,6 +13,7 @@
 					</view>
 					<view class="signature">
 						{{userInfo.signature}}
+						<i class="iconfont pig-changyong_pingjia" @click="changeSignature"></i>
 					</view>
 				</template>
 				<template v-else>
@@ -29,7 +30,13 @@
 </template>
 
 <script>
+	import CONFIG from "@/config/index.js"
 	export default {
+		data() {
+			return {
+				show: false
+			}
+		},
 		computed: {
 			userInfo() {
 				return this.$store.state.userInfo
@@ -47,6 +54,18 @@
 				this.$store.commit("setUserInfo", ''); // 清除用户信息
 				this.$store.commit("setAuthorization", ''); // 清楚token
 				uni.clearStorage();
+			},
+			// 跳转到裁剪页面
+			updateAvater() {
+				uni.navigateTo({
+					url: `/pages/avatar/index`
+				})
+			},
+			// 修改签名
+			changeSignature() {
+				uni.navigateTo({
+					url: `/pages/signature/index?oldSignature=${this.userInfo.signature}`
+				})
 			}
 		},
 	}
@@ -71,6 +90,15 @@
 				display: flex;
 				align-items: center;
 				padding-left: 40rpx;
+
+				/deep/ .u-upload__wrap {
+					width: 160rpx;
+					height: 160rpx;
+
+					.u-upload__wrap__preview {
+						margin: 0;
+					}
+				}
 			}
 
 			.right {
@@ -91,6 +119,12 @@
 					font-size: $uni-font-size-base;
 					color: $uni-color-subtitle;
 					margin-top: 10rpx;
+					display: flex;
+					align-items: center;
+
+					.iconfont {
+						margin-left: 20rpx;
+					}
 				}
 
 				.toLogin {

@@ -31,3 +31,21 @@ export const emailCode = (data) => {
 		data: data
 	})
 };
+
+// 修改用户头像
+export const updateAvatarAsync = (data) => {
+	return request({
+		url: "/api/person/updateAvatar",
+		method: "put",
+		data: data
+	})
+}
+
+// 修改个性签名
+export const updateSignature = (data) => {
+	return request({
+		url: "/api/person/updateSignature",
+		method: "put",
+		data: data
+	})
+}
