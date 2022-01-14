@@ -10,6 +10,10 @@
 	} from "@/http/api/user.js"
 	import CONFIG from "@/config/index.js"
 	export default {
+		// 样式穿透
+		options: {
+			styleIsolation: 'shared'
+		},
 		data() {
 			return {
 				avatar: ''

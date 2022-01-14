@@ -46,10 +46,10 @@
 				</view>
 			</view>
 			<view class='cropper-config'>
-				<u-button class="cropper-choose" :text="selectButtonText"
+				<u-button :text="selectButtonText"
 					color="linear-gradient(to right, rgb(170, 170, 127), rgb(213, 51, 186))" @click="getImage">
 				</u-button>
-				<u-button class="cropper-confirm" :text="saveButtonText"
+				<u-button :text="saveButtonText"
 					color="linear-gradient(to right, rgb(170, 170, 127), rgb(213, 51, 186))" @click="getImageInfo">
 				</u-button>
 			</view>
@@ -84,6 +84,9 @@
 
 	export default {
 		name: 'OkingtzCropper',
+		options: {
+			styleIsolation: 'shared'
+		},
 		props: {
 			original: {
 				// 是否按照原始大小返回
@@ -695,7 +698,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.cropper-config {
 		padding: 50rpx 40rpx;
 		display: flex;
@@ -704,12 +707,8 @@
 	}
 
 
-	.cropper-choose {
-		margin-right: 20rpx;
-	}
-
-	.cropper-confirm {
-		margin-left: 20rpx;
+	/deep/ .u-button {
+		margin: 20rpx;
 	}
 
 	.page-body {
