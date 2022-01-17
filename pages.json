@@ -3,7 +3,7 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "小猪爱分享",
+				"navigationBarTitleText": "科技趣玩",
 				"enablePullDownRefresh": true
 			}
 		}, {
@@ -57,6 +57,11 @@
 			"path": "pages/login/register",
 			"style": {
 				"navigationBarTitleText": "注册"
+			}
+		}, {
+			"path": "pages/login/forget",
+			"style": {
+				"navigationBarTitleText": "找回密码"
 			}
 		}
 	],

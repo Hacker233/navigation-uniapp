@@ -24,19 +24,21 @@
 			categoryList: {
 				type: Array,
 				default: () => []
+			},
+			current: {
+				type: Number,
+				default: 0
 			}
 		},
 		data() {
-			return {
-				current: 0,
-			}
+			return {}
 		},
 		mounted() {},
 		methods: {
-
 			// 选择分类
 			chooseCategory(item, index) {
-				this.current = index;
+				item.index = index;
+				console.log("item", item)
 				this.$emit("chooseCategory", item);
 			}
 		}

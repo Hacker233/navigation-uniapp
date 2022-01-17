@@ -49,3 +49,12 @@ export const updateSignature = (data) => {
 		data: data
 	})
 }
+
+// 重置密码
+export const forgetPass = (data) => {
+	return request({
+		url: "/api/user/forgetPass",
+		method: "put",
+		data: data
+	})
+}

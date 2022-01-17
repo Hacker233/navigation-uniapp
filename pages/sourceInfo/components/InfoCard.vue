@@ -203,6 +203,7 @@
 				console.log("删除评论", item);
 				let params = {
 					id: item,
+					articleId: this.sourceInfo.source_id,
 					commentType: this.commentType
 				}
 				const data = await deleteComment(params);

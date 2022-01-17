@@ -20,6 +20,11 @@
 				<i class="iconfont pig-liulan"></i>
 				<span>{{sourceInfo.source_views}}</span>
 			</view>
+			<!-- 评论量 -->
+			<view class="comments">
+				<i class="iconfont pig-changyong_xiaoxi"></i>
+				<span>{{sourceInfo.source_comment_num || 0}}</span>
+			</view>
 			<!-- 时间 -->
 			<view class="date">
 				<text>{{formatTime(sourceInfo.source_create_date)}}</text>
@@ -138,12 +143,26 @@
 					margin-right: 3px;
 				}
 			}
+			.comments {
+				font-size: 12px;
+				color: #4e5969;
+				display: flex;
+				align-items: center;
+				margin-left: 14rpx;
+				
+				.iconfont {
+					color: #4e5969;
+					margin-right: 3px;
+				}
+			}
 
 			.date {
 				font-size: 12px;
 				color: #4e5969;
 				display: flex;
 				align-items: center;
+				flex: 1;
+				justify-content: flex-end;
 			}
 		}
 	}

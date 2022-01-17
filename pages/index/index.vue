@@ -6,13 +6,18 @@
 			:height="150" @click="clickSwiper"></u-swiper>
 		<!-- 菜单tab -->
 		<u-sticky>
-			<u-tabs :list="menuList" keyName="menu_name" sticky :currentMenu="currentMenu" @click="clickTab"
+			<u-tabs :list="menuList" keyName="menu_name" sticky :current="currentMenu" @click="clickTab"
 				@change="changeTab"></u-tabs>
 		</u-sticky>
 		<!-- 内容区域 -->
-		<view class="website-card-box">
-			<website-card :websiteList="websiteList" :menuIcon="menuIcon" v-if="!showLoading"></website-card>
-			<u-loading-icon color="red" :show="showLoading"></u-loading-icon>
+		<view class="website-card-box" @touchstart="start" @touchend="end">
+			<template v-if="!isShowNoData">
+				<website-card :websiteList="websiteList" :menuIcon="menuIcon" v-if="!showLoading"></website-card>
+				<u-loading-icon color="red" :show="showLoading"></u-loading-icon>
+			</template>
+			<template v-else>
+				<no-data></no-data>
+			</template>
 		</view>
 		<!-- 滚动到顶部 -->
 		<u-back-top :scroll-top="scrollTop"></u-back-top>
@@ -40,7 +45,12 @@
 				showLoading: true, // 加载动画
 				scrollTop: 0,
 				carsouelList: [],
-				fileterCarouselList: []
+				fileterCarouselList: [],
+				isShowNoData: false, // 是否展示无数据页面
+				startData: {
+					clientX: '',
+					clientY: ''
+				}
 			}
 		},
 		onPageScroll(e) {
@@ -104,6 +114,7 @@
 			// 获取所有站点
 			async queryMenuWebsiteAsync() {
 				this.showLoading = true;
+				this.isShowNoData = false;
 				let params = {
 					menuId: this.menuId,
 				};
@@ -111,6 +122,10 @@
 				if (data.code === "00000") {
 					this.websiteList = data.data;
 					this.showLoading = false;
+					// 没有数据
+					if (!this.websiteList.length) {
+						this.isShowNoData = true;
+					}
 					uni.stopPullDownRefresh();
 				} else {
 					uni.$u.toast(data.message);
@@ -141,6 +156,35 @@
 						})
 					}
 				}
+			},
+			start(e) {
+				this.startData.clientX = e.changedTouches[0].clientX;
+				this.startData.clientY = e.changedTouches[0].clientY;
+			},
+			end(e) {
+				// console.log(e)
+				const subX = e.changedTouches[0].clientX - this.startData.clientX;
+				const subY = e.changedTouches[0].clientY - this.startData.clientY;
+				if (subY > 50 || subY < -50) {
+					return;
+				} else {
+					if (subX > 100) {
+						if (this.currentMenu === 0) {
+							return;
+						}
+						this.currentMenu -= 1; // 选中的tab+1
+						this.clickTab(this.menuList[this.currentMenu])
+					} else if (subX < -100) {
+						if (this.currentMenu === (this.menuList.length - 1)) {
+							this.currentMenu = 0
+						} else {
+							this.currentMenu += 1; // 选中的tab+1
+						}
+						this.clickTab(this.menuList[this.currentMenu])
+					} else {
+						return
+					}
+				}
 			}
 		}
 	}
@@ -150,6 +194,10 @@
 		.website-card-box {
 			.u-loading-icon {
 				height: 400rpx;
+			}
+
+			/deep/ .u-empty {
+				margin-top: 50rpx;
 			}
 		}
 

@@ -8,16 +8,24 @@
 		<!-- 分类筛选栏 -->
 		<u-sticky>
 			<view class="category">
-				<category-list ref="category" :categoryList="categoryList" @chooseCategory="chooseCategory">
+				<category-list ref="category" :categoryList="categoryList" :current="currentTab"
+					@chooseCategory="chooseCategory">
 				</category-list>
 			</view>
 		</u-sticky>
 
 		<!-- 资源列表栏 -->
 		<u-transition :show="true" mode="slide-up">
-			<view class="source-card-box" v-if="sourceList.length">
-				<source-card v-for="(item,index) in sourceList" :key="index" :sourceInfo="item"></source-card>
-			</view>
+			<template v-if="!isShowNoData">
+				<view class="source-card-box" v-if="sourceList.length" @touchstart="start" @touchend="end">
+					<source-card v-for="(item,index) in sourceList" :key="index" :sourceInfo="item"></source-card>
+				</view>
+			</template>
+			<template v-else>
+				<view class="no-data" @touchstart="start" @touchend="end">
+					<no-data></no-data>
+				</view>
+			</template>
 		</u-transition>
 
 		<!-- 上拉加載动画 -->
@@ -25,7 +33,7 @@
 			<u-loading-icon></u-loading-icon>
 		</view>
 		<!-- 是否已经到底部了 -->
-		<u-divider v-if="isEnd" text="到底啦~~~"></u-divider>
+		<u-divider v-if="isEnd && !isShowNoData" text="到底啦~~~"></u-divider>
 
 		<!-- 滚动到顶部 -->
 		<u-back-top :scroll-top="scrollTop"></u-back-top>
@@ -60,8 +68,14 @@
 					page: 1,
 					pageSize: 10,
 				},
+				currentTab: 0,
 				carsouelList: [],
-				fileterCarouselList: []
+				fileterCarouselList: [],
+				startData: {
+					clientX: '',
+					clientY: ''
+				},
+				isShowNoData: false
 			}
 		},
 		//监听下拉刷新
@@ -113,6 +127,7 @@
 			},
 			// 查询该分类下的资源
 			async querySourceByCategoryAsync() {
+				this.isShowNoData = false;
 				let params = {
 					page: this.pageParams.page,
 					pageSize: this.pageParams.pageSize,
@@ -126,6 +141,10 @@
 					this.currentPage = data.data.page.currentPage; // 当前页
 					this.isEnd = data.data.page.isEnd;
 					this.isloading = false;
+					// 无数据
+					if (!this.sourceList.length) {
+						this.isShowNoData = true;
+					}
 					uni.stopPullDownRefresh();
 				} else {
 					uni.$u.toast(data.message)
@@ -133,6 +152,8 @@
 			},
 			// 选择分类
 			chooseCategory(item) {
+				this.currentTab = item.index;
+				console.log("this.currentTab", this.currentTab)
 				this.isEnd = false;
 				this.sourceList = [];
 				this.pageParams = {
@@ -163,6 +184,37 @@
 						uni.navigateTo({
 							url: `${path}`
 						})
+					}
+				}
+			},
+			start(e) {
+				this.startData.clientX = e.changedTouches[0].clientX;
+				this.startData.clientY = e.changedTouches[0].clientY;
+			},
+			end(e) {
+				// console.log(e)
+				const subX = e.changedTouches[0].clientX - this.startData.clientX;
+				const subY = e.changedTouches[0].clientY - this.startData.clientY;
+				if (subY > 50 || subY < -50) {
+					return;
+				} else {
+					if (subX > 100) {
+						if (this.currentTab === 0) {
+							return;
+						}
+						this.currentTab -= 1; // 选中的tab+1
+						this.categoryList[this.currentTab].index = this.currentTab;
+						this.chooseCategory(this.categoryList[this.currentTab])
+					} else if (subX < -100) {
+						if (this.currentTab === (this.categoryList.length - 1)) {
+							this.currentTab = 0
+						} else {
+							this.currentTab += 1; // 选中的tab+1
+						}
+						this.categoryList[this.currentTab].index = this.currentTab;
+						this.chooseCategory(this.categoryList[this.currentTab])
+					} else {
+						return
 					}
 				}
 			}
