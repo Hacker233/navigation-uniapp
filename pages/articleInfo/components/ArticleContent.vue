@@ -69,7 +69,6 @@
 		deleteComment
 	} from "@/http/api/comment.js";
 	import Prism from "prismjs";
-	import "prismjs/themes/prism-coy.css";
 	export default {
 		// 样式穿透
 		options: {
@@ -278,6 +277,7 @@
 	};
 </script>
 <style lang="scss">
+	@import "prismjs/themes/prism-coy.css";
 	.article-content-box {
 
 		// 文章内容区域

@@ -25,6 +25,11 @@
 				<i class="iconfont pig-changyong_xiaoxi"></i>
 				<span>{{sourceInfo.source_comment_num || 0}}</span>
 			</view>
+			<!-- 点赞量 -->
+			<view class="likes">
+				<i class="iconfont pig-changyong_dianzan"></i>
+				<span>{{sourceInfo.source_likes_users.length || 0}}</span>
+			</view>
 			<!-- 时间 -->
 			<view class="date">
 				<text>{{formatTime(sourceInfo.source_create_date)}}</text>
@@ -144,6 +149,18 @@
 				}
 			}
 			.comments {
+				font-size: 12px;
+				color: #4e5969;
+				display: flex;
+				align-items: center;
+				margin-left: 14rpx;
+				
+				.iconfont {
+					color: #4e5969;
+					margin-right: 3px;
+				}
+			}
+			.likes {
 				font-size: 12px;
 				color: #4e5969;
 				display: flex;

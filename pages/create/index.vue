@@ -81,7 +81,7 @@
 		//监听下拉刷新
 		onPullDownRefresh() {
 			// console.log("category",this.$refs.category.current)
-			this.$refs.category.current = 0;
+			this.currentTab = 0;
 			this.getSocategoryAll();
 		},
 		onPageScroll(e) {
@@ -241,6 +241,7 @@
 			justify-content: space-between;
 			padding: 0 32rpx;
 			box-sizing: border-box;
+			min-height: 50vh;
 		}
 
 	}

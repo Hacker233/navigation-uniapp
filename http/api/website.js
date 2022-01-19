@@ -10,8 +10,27 @@ export const queryMenuWebsite = (params) => {
 // 查询网站信息
 export const queryWebsite = (params) => {
 	return request({
-		url: "/api/website/queryWebsite",
+		url: "/api/website/queryWebsiteById",
 		method: "get",
 		data: params
 	});
 }
+
+// 点赞网站
+export const likeWebsiteById = (params) => {
+	return request({
+		url: "/api/website/likeWebsite",
+		method: "post",
+		data: params
+	});
+}
+
+// 取消点赞网站
+export const cancleLikeWebsiteById = (params) => {
+	return request({
+		url: "/api/website/cancleLikeWebsite",
+		method: "put",
+		data: params
+	});
+}
+

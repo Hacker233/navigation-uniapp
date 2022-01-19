@@ -23,10 +23,19 @@
 							<text class="abstarct">{{webItem.website_abstract}}</text>
 						</view>
 						<view class="bottom">
-							<view class="view-num">
-								<i class="iconfont pig-liulan"></i>
-								<text class="text">{{webItem.website_views}}</text>
+							<view class="user-like-view">
+								<!-- 浏览量 -->
+								<view class="view-num">
+									<i class="iconfont pig-liulan"></i>
+									<text class="text">{{webItem.website_views || 0}}</text>
+								</view>
+								<!-- 点赞量 -->
+								<view class="view-num">
+									<i class="iconfont pig-changyong_dianzan"></i>
+									<text class="text">{{webItem.website_like_count || 0}}</text>
+								</view>
 							</view>
+							<!-- 标签 -->
 							<view class="web-tags">
 								<text class="tags">{{webItem.website_tags}}</text>
 							</view>
@@ -106,8 +115,9 @@
 				.card {
 					width: 48.6%;
 					margin: 0 0 40rpx 0;
+					height: 240rpx;
 					border-radius: $uni-border-radius-base;
-					padding: 10rpx 10rpx;
+					padding: 10rpx 10rpx 0 10rpx;
 					box-sizing: border-box;
 					position: relative;
 					box-shadow: 0 13px 15px rgba(31, 45, 61, 0.15);
@@ -115,6 +125,8 @@
 					transition: -webkit-transform .25s, -webkit-box-shadow .25s;
 					transition: transform .25s, box-shadow .25s;
 					transition: transform .25s, box-shadow .25s, -webkit-transform .25s, -webkit-box-shadow .25s;
+					display: flex;
+					flex-direction: column;
 
 					// 热门标签
 					.pig-remen {
@@ -158,24 +170,34 @@
 
 					.bottom {
 						display: flex;
-						justify-content: space-between;
 						align-items: center;
-						height: 60rpx;
 						border-top: 1px solid #eee;
-						margin-top: 10rpx;
+						flex: 1;
 
-						.view-num {
+						.user-like-view {
 							display: flex;
 							align-items: center;
-							font-size: $uni-font-size-sm;
-							color: $uni-text-color-grey;
+							.view-num {
+								display: flex;
+								align-items: center;
+								font-size: $uni-font-size-sm;
+								color: $uni-text-color-grey;
+								.iconfont {
+									color: #4e5969;
+									margin-right: 4rpx;
+									font-size: 24rpx;
+								}
 
-							.text {
-								margin-left: 6rpx;
+								.text {
+									margin-right: 10rpx;
+								}
 							}
 						}
 
 						.web-tags {
+							flex: 1;
+							display: flex;
+							justify-content: flex-end;
 							.tags {
 								font-size: $uni-font-size-sm;
 								display: flex;

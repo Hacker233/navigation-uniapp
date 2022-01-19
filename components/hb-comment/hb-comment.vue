@@ -186,7 +186,6 @@
 		methods: {
 			// 格式化时间
 			formatTime(time) {
-				console.log("tiem", time, showtime(time))
 				return showtime(time)
 			},
 			// 初始化评论

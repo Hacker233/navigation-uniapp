@@ -42,10 +42,19 @@
 						<i class="iconfont pig-liulan"></i>
 						<u--text type="info" :text="sourceInfo.source_views"></u--text>
 					</view>
+					<!-- 分割线 -->
+					<view class="hr"></view>
 					<!-- 评论量 -->
-					<view class="views">
+					<view class="views" @click="commentInput">
 						<i class="iconfont pig-changyong_xiaoxi"></i>
 						<u--text v-if="commentData" type="info" :text="commentData.commentSize"></u--text>
+					</view>
+					<!-- 分割线 -->
+					<view class="hr"></view>
+					<!-- 点赞量 -->
+					<view class="views" @click="likeOrCancleLike">
+						<i :class="['iconfont','pig-changyong_dianzan',{'like-active':isLike}]"></i>
+						<u--text v-if="commentData" type="info" :text="sourceInfo.source_likes_users.length"></u--text>
 					</view>
 				</view>
 			</view>
@@ -74,7 +83,9 @@
 
 <script>
 	import {
-		querySourceById
+		querySourceById,
+		likeSourceById,
+		cancleLikeSourceById
 	} from "@/http/api/source.js"
 	import {
 		showtime
@@ -103,6 +114,11 @@
 				commentList: [],
 				rowsHeight: [80, 40, 130, 40, 40],
 				commentType: 'source' // 评论类型
+			}
+		},
+		computed: {
+			isLike() {
+				return this.sourceInfo.isLike === 1
 			}
 		},
 		mounted() {
@@ -138,6 +154,57 @@
 					current: index,
 					urls: photoList
 				});
+			},
+			// 点击评论图标
+			commentInput() {
+				this.$refs.hbComment.commentInput()
+			},
+			// 点赞或者取消点赞资源
+			likeOrCancleLike() {
+				console.log(this.isLike)
+				if (this.isLike) {
+					this.cancleLikeSource();
+				} else {
+					this.likeSource();
+				}
+			},
+			// 取消点赞资源
+			async cancleLikeSource() {
+				let params = {
+					sourceId: this.sourceId
+				}
+				const data = await cancleLikeSourceById(params);
+				if (data.code === "00000") {
+					uni.showToast({
+						icon: "success",
+						title: "取消点赞成功"
+					})
+					this.init();
+				} else {
+					uni.showToast({
+						icon: "error",
+						title: data.message
+					})
+				}
+			},
+			// 点赞资源
+			async likeSource() {
+				let params = {
+					sourceId: this.sourceId
+				}
+				const data = await likeSourceById(params);
+				if (data.code === "00000") {
+					uni.showToast({
+						icon: "success",
+						title: "点赞成功"
+					})
+					this.init();
+				} else {
+					uni.showToast({
+						icon: "error",
+						title: data.message
+					})
+				}
 			},
 			// 获取所有评论列表
 			async getCommentListAsync() {
@@ -188,7 +255,10 @@
 				}
 				const data = await addComment(params);
 				if (data.code === "00000") {
-					console.log("评论成功", data.data);
+					uni.showToast({
+						icon: "success",
+						title: "评论成功"
+					})
 					this.getCommentListAsync();
 					this.$refs.hbComment.closeInput();
 				} else {
@@ -336,6 +406,12 @@
 				align-items: center;
 				justify-content: center;
 
+				.hr {
+					height: 100%;
+					width: 2rpx;
+					background-color: #eee;
+				}
+
 				.views {
 					height: 100%;
 					display: flex;
@@ -351,6 +427,10 @@
 					/deep/ .u-text {
 						flex: initial !important;
 					}
+				}
+
+				.like-active {
+					color: $uni-color-primary;
 				}
 			}
 		}

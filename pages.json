@@ -84,11 +84,6 @@
 			"iconPath": "static/tabBar/home.png",
 			"text": "网站"
 		}, {
-			"pagePath": "pages/article/index",
-			"text": "文章",
-			"iconPath": "static/tabBar/article.png",
-			"selectedIconPath": "static/tabBar/article-select.png"
-		}, {
 			"pagePath": "pages/create/index",
 			"text": "资源",
 			"iconPath": "static/tabBar/chat.png",

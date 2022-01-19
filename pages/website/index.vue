@@ -4,8 +4,7 @@
 			<view class="detail-box">
 				<!-- 网站logo -->
 				<view class="website-logo">
-					<u--image src="https://cdn.uviewui.com/uview/album/1.jpg" shape="circle" width="100px"
-						height="100px">
+					<u--image :src="websiteInfo.website_favicon" shape="circle" width="100px" height="100px">
 					</u--image>
 				</view>
 				<!-- 标题 -->
@@ -33,9 +32,17 @@
 				</view>
 				<!-- 浏览量等等 -->
 				<view class="website-views">
+					<!-- 浏览量 -->
 					<view class="views">
 						<i class="iconfont pig-liulan"></i>
 						<u--text type="info" :text="websiteInfo.website_views"></u--text>
+					</view>
+					<!-- 分割线 -->
+					<view class="hr"></view>
+					<!-- 点赞量 -->
+					<view class="views" @click="likeOrCancleLike">
+						<i :class="['iconfont','pig-changyong_dianzan',{'like-active':isLike}]"></i>
+						<u--text type="info" :text="websiteInfo.website_like_users.length"></u--text>
 					</view>
 				</view>
 			</view>
@@ -45,7 +52,9 @@
 
 <script>
 	import {
-		queryWebsite
+		queryWebsite,
+		likeWebsiteById,
+		cancleLikeWebsiteById
 	} from "../../http/api/website.js";
 	export default {
 		data() {
@@ -57,6 +66,11 @@
 		},
 		onLoad(option) {
 			this.websiteId = option.websiteId;
+		},
+		computed: {
+			isLike() {
+				return this.websiteInfo.isLike === 1
+			}
 		},
 		mounted() {
 			this.init();
@@ -72,6 +86,53 @@
 					this.websiteInfo = data.data;
 				} else {
 					uni.$u.toast(data.message)
+				}
+			},
+			// 点赞或者取消点赞资源
+			likeOrCancleLike() {
+				console.log(this.isLike)
+				if (this.isLike) {
+					this.cancleLikeWebsite();
+				} else {
+					this.likeWebsite();
+				}
+			},
+			// 取消点赞资源
+			async cancleLikeWebsite() {
+				let params = {
+					websiteId: this.websiteId
+				}
+				const data = await cancleLikeWebsiteById(params);
+				if (data.code === "00000") {
+					uni.showToast({
+						icon: "success",
+						title: "取消点赞成功"
+					})
+					this.init();
+				} else {
+					uni.showToast({
+						icon: "error",
+						title: data.message
+					})
+				}
+			},
+			// 点赞资源
+			async likeWebsite() {
+				let params = {
+					websiteId: this.websiteId
+				}
+				const data = await likeWebsiteById(params);
+				if (data.code === "00000") {
+					uni.showToast({
+						icon: "success",
+						title: "点赞成功"
+					})
+					this.init();
+				} else {
+					uni.showToast({
+						icon: "error",
+						title: data.message
+					})
 				}
 			},
 			// 点击复制
@@ -157,16 +218,28 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-
+				.hr {
+					height: 100%;
+					width: 2rpx;
+					background-color: #eee;
+				}
 				.views {
 					height: 100%;
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					flex: 1;
+
+					.u-text {
+						flex: initial;
+					}
 
 					.iconfont {
 						margin-right: 10rpx;
 						font-size: $uni-font-size-lg;
+					}
+					.like-active {
+						color: $uni-color-primary;
 					}
 				}
 			}

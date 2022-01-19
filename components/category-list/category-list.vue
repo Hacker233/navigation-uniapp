@@ -47,12 +47,12 @@
 
 <style lang="scss">
 	.category-list-box {
-		height: 160rpx;
+		height: 120rpx;
 		display: flex;
 		align-items: center;
 
 		/deep/ .uni-scroll-view {
-			height: 160rpx;
+			height: 120rpx;
 
 			.uni-scroll-view-content {
 				display: flex;
@@ -67,7 +67,7 @@
 			padding: 0 20rpx;
 
 			.category-item {
-				height: 80rpx;
+				height: 70rpx;
 				display: flex;
 				justify-content: center;
 				align-items: center;

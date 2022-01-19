@@ -23,3 +23,21 @@ export const querySourceById = (params) => {
 		data: params,
 	});
 }
+
+// 点赞资源
+export const likeSourceById = (params) => {
+	return request({
+		url: "/api/source/likeSource",
+		method: "post",
+		data: params,
+	});
+}
+
+// 取消点赞资源
+export const cancleLikeSourceById = (params) => {
+	return request({
+		url: "/api/source/cancleLikeSource",
+		method: "put",
+		data: params,
+	});
+}
