@@ -42,7 +42,8 @@
 					<!-- 点赞量 -->
 					<view class="views" @click="likeOrCancleLike">
 						<i :class="['iconfont','pig-changyong_dianzan',{'like-active':isLike}]"></i>
-						<u--text type="info" :text="websiteInfo.website_like_users.length"></u--text>
+						<text
+							:class="['views-text',{'like-active':isLike}]">{{websiteInfo.website_like_users.length}}</text>
 					</view>
 				</view>
 			</view>
@@ -56,6 +57,8 @@
 		likeWebsiteById,
 		cancleLikeWebsiteById
 	} from "../../http/api/website.js";
+	
+	import { throttle } from "@/utils/index.js";
 	export default {
 		data() {
 			return {
@@ -92,9 +95,9 @@
 			likeOrCancleLike() {
 				console.log(this.isLike)
 				if (this.isLike) {
-					this.cancleLikeWebsite();
+					this.cancleLikeWebsite()
 				} else {
-					this.likeWebsite();
+					this.likeWebsite()
 				}
 			},
 			// 取消点赞资源
@@ -108,7 +111,8 @@
 						icon: "success",
 						title: "取消点赞成功"
 					})
-					this.init();
+					this.websiteInfo.isLike = 0;
+					this.websiteInfo.website_like_users.pop(); // 点赞数减一
 				} else {
 					uni.showToast({
 						icon: "error",
@@ -127,7 +131,8 @@
 						icon: "success",
 						title: "点赞成功"
 					})
-					this.init();
+					this.websiteInfo.isLike = 1;
+					this.websiteInfo.website_like_users.push(2); // 点赞数加一
 				} else {
 					uni.showToast({
 						icon: "error",
@@ -232,6 +237,9 @@
 
 					.u-text {
 						flex: initial;
+					}
+					.views-text {
+						color: #909399;
 					}
 
 					.iconfont {

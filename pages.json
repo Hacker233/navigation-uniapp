@@ -63,6 +63,11 @@
 			"style": {
 				"navigationBarTitleText": "找回密码"
 			}
+		}, {
+			"path": "pages/websiteList/index",
+			"style": {
+				"navigationBarTitleText": "大杂烩"
+			}
 		}
 	],
 	// 全局样式

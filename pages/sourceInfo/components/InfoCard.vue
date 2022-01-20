@@ -54,7 +54,8 @@
 					<!-- 点赞量 -->
 					<view class="views" @click="likeOrCancleLike">
 						<i :class="['iconfont','pig-changyong_dianzan',{'like-active':isLike}]"></i>
-						<u--text v-if="commentData" type="info" :text="sourceInfo.source_likes_users.length"></u--text>
+						<text
+							:class="['views-text',{'like-active':isLike}]">{{sourceInfo.source_likes_users.length}}</text>
 					</view>
 				</view>
 			</view>
@@ -179,7 +180,8 @@
 						icon: "success",
 						title: "取消点赞成功"
 					})
-					this.init();
+					this.sourceInfo.isLike = 0;
+					this.sourceInfo.source_likes_users.pop(); // 点赞数减一
 				} else {
 					uni.showToast({
 						icon: "error",
@@ -198,7 +200,8 @@
 						icon: "success",
 						title: "点赞成功"
 					})
-					this.init();
+					this.sourceInfo.isLike = 1;
+					this.sourceInfo.source_likes_users.push(2); // 点赞数加一
 				} else {
 					uni.showToast({
 						icon: "error",
@@ -426,6 +429,13 @@
 
 					/deep/ .u-text {
 						flex: initial !important;
+					}
+
+					.views-text {
+						color: #909399;
+					}
+					.like-active {
+						color: $uni-color-primary;
 					}
 				}
 
