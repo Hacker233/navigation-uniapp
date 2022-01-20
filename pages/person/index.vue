@@ -3,8 +3,13 @@
 		<!-- 用户信息区域 -->
 		<view class="userInfo-box">
 			<view class="left">
-				<u-avatar :src="userInfo.avatar" v-if="userInfo" size="80" @click="updateAvater"></u-avatar>
-				<u-avatar text="猪" v-else size="80"></u-avatar>
+				<template v-if="userInfo">
+					<u-avatar :src="userInfo.avatar" size="80" @click="updateAvater"></u-avatar>
+					<i class="iconfont pig-xiangji3"></i>
+				</template>
+				<template v-else>
+					<u-avatar text="猪" size="80"></u-avatar>
+				</template>
 			</view>
 			<view class="right">
 				<template v-if="userInfo">
@@ -90,6 +95,7 @@
 				display: flex;
 				align-items: center;
 				padding-left: 40rpx;
+				position: relative;
 
 				/deep/ .u-upload__wrap {
 					width: 160rpx;
@@ -98,6 +104,13 @@
 					.u-upload__wrap__preview {
 						margin: 0;
 					}
+				}
+
+				.pig-xiangji3 {
+					font-size: 40rpx;
+					position: absolute;
+					right: -4rpx;
+					top: 190rpx;
 				}
 			}
 

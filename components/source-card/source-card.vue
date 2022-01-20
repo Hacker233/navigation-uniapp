@@ -1,41 +1,43 @@
 <template>
-	<view class="card-box" @click="toSourceDetail">
-		<!-- 封面图 -->
-		<view class="cover-box">
-			<u--image :showLoading="true" :src="sourceInfo.source_cover" width="180px" height="170px"
-				mode="scaleToFill"></u--image>
-		</view>
-		<!-- 资源题目 -->
-		<view class="source-title">
-			<text>{{sourceInfo.source_title}}</text>
-		</view>
-		<!-- 资源标签 -->
-		<view class="source-tags">
-			<text v-for="(item,index) in sourceInfo.source_tags" :key="index">{{item}}</text>
-		</view>
-		<!-- 浏览量和日期 -->
-		<view class="source-bottom">
-			<!-- 浏览量 -->
-			<view class="views">
-				<i class="iconfont pig-liulan"></i>
-				<span>{{sourceInfo.source_views}}</span>
+	<u-transition :show="true" mode="fade-up" :duration="duration">
+		<view class="card-box" @click="toSourceDetail">
+			<!-- 封面图 -->
+			<view class="cover-box">
+				<u--image :showLoading="true" :src="sourceInfo.source_cover" width="180px" height="170px"
+					mode="scaleToFill"></u--image>
 			</view>
-			<!-- 评论量 -->
-			<view class="comments">
-				<i class="iconfont pig-changyong_xiaoxi"></i>
-				<span>{{sourceInfo.source_comment_num || 0}}</span>
+			<!-- 资源题目 -->
+			<view class="source-title">
+				<text>{{sourceInfo.source_title}}</text>
 			</view>
-			<!-- 点赞量 -->
-			<view class="likes">
-				<i class="iconfont pig-changyong_dianzan"></i>
-				<span>{{sourceInfo.source_likes_users.length || 0}}</span>
+			<!-- 资源标签 -->
+			<view class="source-tags">
+				<text v-for="(item,index) in sourceInfo.source_tags" :key="index">{{item}}</text>
 			</view>
-			<!-- 时间 -->
-			<view class="date">
-				<text>{{formatTime(sourceInfo.source_create_date)}}</text>
+			<!-- 浏览量和日期 -->
+			<view class="source-bottom">
+				<!-- 浏览量 -->
+				<view class="views">
+					<i class="iconfont pig-liulan"></i>
+					<span>{{sourceInfo.source_views}}</span>
+				</view>
+				<!-- 评论量 -->
+				<view class="comments">
+					<i class="iconfont pig-changyong_xiaoxi"></i>
+					<span>{{sourceInfo.source_comment_num || 0}}</span>
+				</view>
+				<!-- 点赞量 -->
+				<view class="likes">
+					<i class="iconfont pig-changyong_dianzan"></i>
+					<span>{{sourceInfo.source_likes_users.length || 0}}</span>
+				</view>
+				<!-- 时间 -->
+				<view class="date">
+					<text>{{formatTime(sourceInfo.source_create_date)}}</text>
+				</view>
 			</view>
 		</view>
-	</view>
+	</u-transition>
 </template>
 
 <script>
@@ -52,9 +54,18 @@
 				type: Object,
 				default: () => {}
 			},
+			index: {
+				type: Number,
+				default: 0
+			}
 		},
 		data() {
-			return {}
+			return {
+				duration: 300
+			}
+		},
+		mounted(){
+			this.duration = 300 + (this.index * 300);
 		},
 		methods: {
 			// 格式化时间
@@ -86,6 +97,7 @@
 			width: 100%;
 			height: 300rpx;
 			overflow: hidden;
+
 			/deep/ .u-image__image {
 				width: 100% !important;
 			}
@@ -96,7 +108,7 @@
 			min-height: 60rpx;
 
 			text {
-				font-size: $uni-font-size-lg;
+				font-size: $uni-font-size-base;
 				color: $uni-color-title;
 				text-align: justify;
 				display: flex;
@@ -148,25 +160,27 @@
 					margin-right: 3px;
 				}
 			}
+
 			.comments {
 				font-size: 12px;
 				color: #4e5969;
 				display: flex;
 				align-items: center;
 				margin-left: 14rpx;
-				
+
 				.iconfont {
 					color: #4e5969;
 					margin-right: 3px;
 				}
 			}
+
 			.likes {
 				font-size: 12px;
 				color: #4e5969;
 				display: flex;
 				align-items: center;
 				margin-left: 14rpx;
-				
+
 				.iconfont {
 					color: #4e5969;
 					margin-right: 3px;

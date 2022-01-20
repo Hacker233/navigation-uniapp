@@ -14,11 +14,12 @@
 			</view>
 		</u-sticky>
 
-		<!-- 资源列表栏 -->
+		<!-- 资源卡片列表栏 -->
 		<u-transition :show="true" mode="slide-up">
 			<template v-if="!isShowNoData">
 				<view class="source-card-box" v-if="sourceList.length" @touchstart="start" @touchend="end">
-					<source-card v-for="(item,index) in sourceList" :key="index" :sourceInfo="item"></source-card>
+					<source-card v-for="(item,index) in sourceList" :key="index" :sourceInfo="item" :index="index">
+					</source-card>
 				</view>
 			</template>
 			<template v-else>
@@ -80,9 +81,13 @@
 		},
 		//监听下拉刷新
 		onPullDownRefresh() {
-			// console.log("category",this.$refs.category.current)
 			this.currentTab = 0;
-			this.getSocategoryAll();
+			this.sourceList = [];
+			this.pageParams = {
+				page: 1,
+				pageSize: 10,
+			};
+			this.getSocategoryAll(); // 初始化分类列表
 		},
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop;
@@ -103,13 +108,18 @@
 		methods: {
 			// 初始化分类列表
 			async getSocategoryAll() {
+				//显示加载框
+				uni.showLoading({
+					title: "加载中"
+				})
 				const data = await querySocategoryAll();
 				if (data.code === "00000") {
 					this.categoryList = data.data;
 					this.sourceCategory = this.categoryList[0].socategory_name; // 默认查询第一项
 					this.querySourceByCategoryAsync();
 				} else {
-					uni.$u.toast(data.message)
+					uni.$u.toast(data.message);
+					uni.hideLoading();
 				}
 			},
 			// 初始化资源页面轮播图
@@ -128,6 +138,10 @@
 			// 查询该分类下的资源
 			async querySourceByCategoryAsync() {
 				this.isShowNoData = false;
+				//显示加载框
+				uni.showLoading({
+					title: "加载中"
+				})
 				let params = {
 					page: this.pageParams.page,
 					pageSize: this.pageParams.pageSize,
@@ -146,8 +160,10 @@
 						this.isShowNoData = true;
 					}
 					uni.stopPullDownRefresh();
+					uni.hideLoading();
 				} else {
-					uni.$u.toast(data.message)
+					uni.$u.toast(data.message);
+					uni.hideLoading();
 				}
 			},
 			// 选择分类

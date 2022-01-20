@@ -4,13 +4,32 @@
        url('~@/static/fonts/iconfont.woff?t=1641902664642') format('woff'),
        url('~@/static/fonts/iconfont.ttf?t=1641902664642') format('truetype');
 }
-
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.pig-xiangji1:before {
+  content: "\e614";
+}
+
+.pig-xiangji2:before {
+  content: "\e652";
+}
+
+.pig-xiangji3:before {
+  content: "\e8c7";
+}
+
+.pig-xiangji:before {
+  content: "\e66b";
+}
+
+.pig-dianzan:before {
+  content: "\e6f8";
 }
 
 .pig-anzhuo:before {
@@ -568,4 +587,3 @@
 .pig-wangzhan:before {
   content: "\e7fe";
 }
-

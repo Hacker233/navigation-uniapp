@@ -74,7 +74,7 @@
 				border: 1px solid #ccc;
 				flex-shrink: 0;
 				margin-right: 16rpx;
-				padding: 0 10rpx;
+				padding: 0 16rpx;
 				border-radius: 20px;
 				font-size: $uni-font-size-base;
 				letter-spacing: 3rpx;

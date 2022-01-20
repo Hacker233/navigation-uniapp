@@ -32,6 +32,11 @@
 		onLoad() {
 			this.init();
 		},
+		//监听下拉刷新
+		onPullDownRefresh() {
+			this.menuList = [];
+			this.init();
+		},
 		mounted() {
 			this.init(); // 获取网站导航
 			this.getCarsouelByPageAsync(); // 获取轮播图
@@ -49,20 +54,28 @@
 				const data = await getCarsouelByPage(params);
 				if (data.code === "00000") {
 					this.carsouelList = data.data;
-					this.fileterCarouselList = data.data.map(item => item.carsouel_url)
+					this.fileterCarouselList = data.data.map(item => item.carsouel_url);
 				} else {
 					uni.$u.toast(data.message)
 				}
 			},
 			// 查询左侧菜单
 			async getMenu(context) {
-				this.showLoading = true;
+				//显示加载框
+				uni.showLoading({
+					title: "加载中"
+				})
 				const data = await getMenu();
 				if (data.code === "00000") {
 					this.menuList = data.data.splice(1, data.data.length);
+					uni.stopPullDownRefresh();
+					//隐藏加载框
+					uni.hideLoading();
 				} else {
 					uni.$u.toast(data.message)
-					this.showLoading = false;
+					uni.stopPullDownRefresh();
+					//隐藏加载框
+					uni.hideLoading();
 				}
 			},
 			// 点击轮播图切换
@@ -97,11 +110,16 @@
 		.website-list-wraper {
 			width: 100%;
 			padding: 50rpx 0 0 0;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: center;
+
 			.list-item-box {
 				margin-bottom: 40rpx;
 			}
 		}
-		
+
 		.website-card-box {
 			.u-loading-icon {
 				height: 400rpx;
