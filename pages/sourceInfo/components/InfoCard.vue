@@ -354,6 +354,9 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
+				padding: 0 40rpx;
+				box-sizing: border-box;
+				word-break: break-word;
 			}
 
 			.source_abstract {
@@ -434,6 +437,7 @@
 					.views-text {
 						color: #909399;
 					}
+
 					.like-active {
 						color: $uni-color-primary;
 					}

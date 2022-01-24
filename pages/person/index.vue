@@ -48,15 +48,14 @@
 		</view>
 
 		<!-- 用户菜单区域 -->
-		<!-- <view class="user-menu-box">
-			<view class="my-like-box">
-				我的点赞
-			</view>
-		</view> -->
+		<view class="user-setting-menu" v-if="userInfo">
+			<user-menu></user-menu>
+		</view>
 	</view>
 </template>
 
 <script>
+	import UserMenu from "./components/UserMenu.vue"
 	import CONFIG from "@/config/index.js"
 	export default {
 		data() {
@@ -73,6 +72,9 @@
 		onShow() {
 			let randNum = this.getRandomInt(1, 8);
 			this.backgroundImage = `https://smallpig.site:9000/navigation/bg/bg-${randNum}.jpg`
+		},
+		components: {
+			UserMenu
 		},
 		methods: {
 			// 获取随机数
@@ -133,7 +135,7 @@
 			}
 
 			.page-title {
-				height: 64rpx;
+				height: 100rpx;
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -237,10 +239,19 @@
 				}
 			}
 		}
-		
+
 		// 菜单列表
 		.my-like-box {
 			margin: 140rpx 0;
+		}
+		
+		.user-setting-menu {
+			max-height: 150rpx;
+			margin: 160rpx 20rpx 0 20rpx;
+			box-shadow: 0 8px 10px rgba(31, 45, 61, 0.2);
+			padding: 20rpx;
+			box-sizing: border-box;
+			border-radius: $uni-border-radius-lg;
 		}
 	}
 </style>
