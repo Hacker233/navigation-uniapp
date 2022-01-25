@@ -79,7 +79,8 @@
 		}, {
 			"path": "pages/mylike/index",
 			"style": {
-				"navigationBarTitleText": "我的点赞"
+				"navigationBarTitleText": "我的点赞",
+				"enablePullDownRefresh": true
 			}
 		}
 	],

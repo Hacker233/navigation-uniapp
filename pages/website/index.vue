@@ -42,8 +42,8 @@
 					<!-- 点赞量 -->
 					<view class="views" @click="likeOrCancleLike">
 						<i :class="['iconfont','pig-changyong_dianzan',{'like-active':isLike}]"></i>
-						<text
-							:class="['views-text',{'like-active':isLike}]">{{websiteInfo.website_like_users.length}}</text>
+						<text :class="['views-text',{'like-active':isLike}]"
+							v-if="websiteInfo.website_like_users">{{websiteInfo.website_like_users.length || 0}}</text>
 					</view>
 				</view>
 			</view>
@@ -57,8 +57,10 @@
 		likeWebsiteById,
 		cancleLikeWebsiteById
 	} from "../../http/api/website.js";
-	
-	import { throttle } from "@/utils/index.js";
+
+	import {
+		throttle
+	} from "@/utils/index.js";
 	export default {
 		data() {
 			return {
@@ -223,11 +225,13 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
+
 				.hr {
 					height: 100%;
 					width: 2rpx;
 					background-color: #eee;
 				}
+
 				.views {
 					height: 100%;
 					display: flex;
@@ -238,6 +242,7 @@
 					.u-text {
 						flex: initial;
 					}
+
 					.views-text {
 						color: #909399;
 					}
@@ -246,6 +251,7 @@
 						margin-right: 10rpx;
 						font-size: $uni-font-size-lg;
 					}
+
 					.like-active {
 						color: $uni-color-primary;
 					}
