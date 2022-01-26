@@ -12,6 +12,34 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.pig-iosliulanqidakai:before {
+  content: "\e6f9";
+}
+
+.pig-yinle:before {
+  content: "\e644";
+}
+
+.pig-music_playlist:before {
+  content: "\e61b";
+}
+
+.pig-liulanqi:before {
+  content: "\e633";
+}
+
+.pig-liulanqi1:before {
+  content: "\e698";
+}
+
+.pig-yinle1:before {
+  content: "\e63b";
+}
+
+.pig-icon__dakailiulanqi:before {
+  content: "\e615";
+}
+
 .pig-xiangji1:before {
   content: "\e614";
 }

@@ -5,29 +5,31 @@
 			<u-swiper :list="fileterCarouselList" previousMargin="30" nextMargin="30" circular radius="5"
 				imgMode="scaleToFill" :height="150" bgColor="#ffffff" @click="clickSwiper"></u-swiper>
 		</view>
-		<!-- 分类筛选栏 -->
+
+		<!-- tabs栏 -->
 		<u-sticky>
-			<view class="category">
-				<category-list ref="category" :categoryList="categoryList" :current="currentTab"
-					@chooseCategory="chooseCategory">
-				</category-list>
-			</view>
+			<comm-tabs :TabList="categoryList" :currentTab="currentTab" @tabs="chooseCategory">
+				<tab-pane v-for="i in categoryList.length" :key="i">
+					<!-- 资源卡片列表栏 -->
+					<u-transition :show="true" mode="slide-up">
+						<template v-if="!isShowNoData">
+							<view class="source-card-box" v-if="sourceList.length">
+								<source-card v-for="(item,index) in sourceList" :key="index" :sourceInfo="item"
+									:index="index">
+								</source-card>
+							</view>
+						</template>
+						<template v-else>
+							<view class="no-data">
+								<no-data></no-data>
+							</view>
+			  	</template>
+					</u-transition>
+				</tab-pane>
+			</comm-tabs>
 		</u-sticky>
 
-		<!-- 资源卡片列表栏 -->
-		<u-transition :show="true" mode="slide-up">
-			<template v-if="!isShowNoData">
-				<view class="source-card-box" v-if="sourceList.length" @touchstart="start" @touchend="end">
-					<source-card v-for="(item,index) in sourceList" :key="index" :sourceInfo="item" :index="index">
-					</source-card>
-				</view>
-			</template>
-			<template v-else>
-				<view class="no-data" @touchstart="start" @touchend="end">
-					<no-data></no-data>
-				</view>
-			</template>
-		</u-transition>
+
 
 		<!-- 上拉加載动画 -->
 		<view class="loading-box" v-if="isloading">
@@ -150,6 +152,7 @@
 				const data = await querySourceByCategory(params);
 				if (data.code === "00000") {
 					this.sourceList = data.data.data;
+					console.log("this.sourceList", this.sourceList)
 					this.total = data.data.page.count; // 总条数
 					this.pageCount = data.data.page.pageCount; // 总页数
 					this.currentPage = data.data.page.currentPage; // 当前页
@@ -167,16 +170,16 @@
 				}
 			},
 			// 选择分类
-			chooseCategory(item) {
-				this.currentTab = item.index;
+			chooseCategory(index) {
+				this.currentTab = index;
 				console.log("this.currentTab", this.currentTab)
 				this.isEnd = false;
-				this.sourceList = [];
+				// this.sourceList = [];
 				this.pageParams = {
 					page: 1,
 					pageSize: 10,
 				};
-				this.sourceCategory = item.socategory_name;
+				this.sourceCategory = this.categoryList[index].socategory_name;
 				this.querySourceByCategoryAsync();
 			},
 			// 点击轮播图切换
@@ -203,37 +206,6 @@
 					}
 				}
 			},
-			start(e) {
-				this.startData.clientX = e.changedTouches[0].clientX;
-				this.startData.clientY = e.changedTouches[0].clientY;
-			},
-			end(e) {
-				// console.log(e)
-				const subX = e.changedTouches[0].clientX - this.startData.clientX;
-				const subY = e.changedTouches[0].clientY - this.startData.clientY;
-				if (subY > 50 || subY < -50) {
-					return;
-				} else {
-					if (subX > 100) {
-						if (this.currentTab === 0) {
-							return;
-						}
-						this.currentTab -= 1; // 选中的tab+1
-						this.categoryList[this.currentTab].index = this.currentTab;
-						this.chooseCategory(this.categoryList[this.currentTab])
-					} else if (subX < -100) {
-						if (this.currentTab === (this.categoryList.length - 1)) {
-							this.currentTab = 0
-						} else {
-							this.currentTab += 1; // 选中的tab+1
-						}
-						this.categoryList[this.currentTab].index = this.currentTab;
-						this.chooseCategory(this.categoryList[this.currentTab])
-					} else {
-						return
-					}
-				}
-			}
 		}
 	}
 </script>
@@ -245,9 +217,11 @@
 
 	.create-box {
 		width: 100%;
+		position: relative;
 
 		.category {
 			background-color: #fff;
+			padding-right: 20rpx;
 		}
 
 		.source-card-box {
