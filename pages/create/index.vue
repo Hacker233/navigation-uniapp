@@ -7,27 +7,25 @@
 		</view>
 
 		<!-- tabs栏 -->
-		<u-sticky>
-			<comm-tabs :TabList="categoryList" :currentTab="currentTab" @tabs="chooseCategory">
-				<tab-pane v-for="i in categoryList.length" :key="i">
-					<!-- 资源卡片列表栏 -->
-					<u-transition :show="true" mode="slide-up">
-						<template v-if="!isShowNoData">
-							<view class="source-card-box" v-if="sourceList.length">
-								<source-card v-for="(item,index) in sourceList" :key="index" :sourceInfo="item"
-									:index="index">
-								</source-card>
-							</view>
-						</template>
-						<template v-else>
-							<view class="no-data">
-								<no-data></no-data>
-							</view>
-			  	</template>
-					</u-transition>
-				</tab-pane>
-			</comm-tabs>
-		</u-sticky>
+		<comm-tabs :TabList="categoryList" :currentTab="currentTab" @tabs="chooseCategory">
+			<tab-pane v-for="i in categoryList.length" :key="i">
+				<!-- 资源卡片列表栏 -->
+				<u-transition :show="true" mode="slide-up">
+					<template v-if="!isShowNoData">
+						<view class="source-card-box" v-if="sourceList.length">
+							<source-card v-for="(item,index) in sourceList" :key="index" :sourceInfo="item"
+								:index="index">
+							</source-card>
+						</view>
+					</template>
+					<template v-else>
+						<view class="no-data">
+							<no-data></no-data>
+						</view>
+					</template>
+				</u-transition>
+			</tab-pane>
+		</comm-tabs>
 
 
 

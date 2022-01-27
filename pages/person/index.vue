@@ -246,7 +246,7 @@
 		}
 		
 		.user-setting-menu {
-			max-height: 150rpx;
+			max-height: 250rpx;
 			margin: 160rpx 20rpx 0 20rpx;
 			box-shadow: 0 8px 10px rgba(31, 45, 61, 0.2);
 			padding: 20rpx;

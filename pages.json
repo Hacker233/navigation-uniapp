@@ -1,9 +1,17 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			"path": "pages/recommend/index",
 			"style": {
 				"navigationBarTitleText": "科技趣玩",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "网站",
 				"enablePullDownRefresh": true
 			}
 		}, {
@@ -82,6 +90,12 @@
 				"navigationBarTitleText": "我的点赞",
 				"enablePullDownRefresh": true
 			}
+		}, {
+			"path": "pages/mycomment/index",
+			"style": {
+				"navigationBarTitleText": "我的评论",
+				"enablePullDownRefresh": true
+			}
 		}
 	],
 	// 全局样式
@@ -98,6 +112,11 @@
 		"backgroundColor": "#FFFFFF",
 		"borderStyle": "white",
 		"list": [{
+			"pagePath": "pages/recommend/index",
+			"selectedIconPath": "static/tabBar/recommend-select.png",
+			"iconPath": "static/tabBar/recommend.png",
+			"text": "推荐"
+		}, {
 			"pagePath": "pages/index/index",
 			"selectedIconPath": "static/tabBar/home-select.png",
 			"iconPath": "static/tabBar/home.png",

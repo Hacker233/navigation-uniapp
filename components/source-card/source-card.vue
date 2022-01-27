@@ -65,7 +65,7 @@
 			}
 		},
 		mounted(){
-			this.duration = 300 + (this.index * 300);
+			this.duration = 300 + (this.index * 100);
 		},
 		methods: {
 			// 格式化时间
