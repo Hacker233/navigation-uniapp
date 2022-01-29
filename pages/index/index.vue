@@ -6,11 +6,14 @@
 			:height="150" @click="clickSwiper"></u-swiper>
 
 		<!-- 网站推荐卡片 -->
-		<view class="website-list-wraper">
-			<view class="list-item-box" v-for="(item,index) in menuList" :key="index">
-				<website-list :menuInfo="item" :index="index"></website-list>
+		<template v-if="menuList.length">
+			<view class="website-list-wraper">
+				<view class="list-item-box" v-for="(item,index) in menuList" :key="index">
+					<website-list :menuInfo="item" :index="index"></website-list>
+				</view>
 			</view>
-		</view>
+		</template>
+		<our-loading v-else active></our-loading>
 	</view>
 </template>
 
@@ -61,21 +64,13 @@
 			},
 			// 查询左侧菜单
 			async getMenu(context) {
-				//显示加载框
-				uni.showLoading({
-					title: "加载中"
-				})
 				const data = await getMenu();
 				if (data.code === "00000") {
 					this.menuList = data.data.splice(1, data.data.length);
 					uni.stopPullDownRefresh();
-					//隐藏加载框
-					uni.hideLoading();
 				} else {
 					uni.$u.toast(data.message)
 					uni.stopPullDownRefresh();
-					//隐藏加载框
-					uni.hideLoading();
 				}
 			},
 			// 点击轮播图切换
@@ -106,6 +101,9 @@
 	}
 </script>
 <style lang="scss">
+	page {
+		background: linear-gradient(to right, rgba(170, 170, 127, 0.1), rgba(213, 51, 186, 0.1));
+	}
 	.content {
 		.website-list-wraper {
 			width: 100%;
