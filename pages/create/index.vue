@@ -14,7 +14,7 @@
 					<template v-if="!isShowNoData">
 						<view class="source-card-box" v-if="sourceList.length">
 							<source-card v-for="(item,index) in sourceList" :key="index" :sourceInfo="item"
-								:index="index">
+								:index="index" @toSourceDetail="toSourceDetail">
 							</source-card>
 						</view>
 					</template>
@@ -76,7 +76,9 @@
 					clientX: '',
 					clientY: ''
 				},
-				isShowNoData: false
+				isShowNoData: false,
+				videoAd: null, // 是否加载激励广告
+				sourceId: ''
 			}
 		},
 		//监听下拉刷新
@@ -100,6 +102,31 @@
 			this.currentPage += 1;
 			this.pageParams.page = this.currentPage
 			this.querySourceByCategoryAsync();
+		},
+		onLoad() {
+			if (wx.createRewardedVideoAd) {
+				this.videoAd = wx.createRewardedVideoAd({
+					adUnitId: 'adunit-9107224b678eda79'
+				})
+				this.videoAd.onLoad(() => {
+					console.log('激励广告拉取成功')
+				})
+				this.videoAd.onError((err) => {
+					console.log('激励广告拉去失败', err)
+				})
+				this.videoAd.onClose((res) => {
+					// 用户点击了【关闭广告】按钮
+					if (res && res.isEnded) {
+						// 正常播放结束，可以下发游戏奖励
+						uni.navigateTo({
+							url: `/pages/sourceInfo/index?sourceId=${this.sourceId}`
+						})
+					} else {
+						// 播放中途退出，不下发游戏奖励
+						return;
+					}
+				})
+			}
 		},
 		mounted() {
 			this.getSocategoryAll();
@@ -149,7 +176,7 @@
 				}
 				const data = await querySourceByCategory(params);
 				if (data.code === "00000") {
-					this.sourceList = data.data.data;
+					this.sourceList = this.sourceList.concat(data.data.data);
 					console.log("this.sourceList", this.sourceList)
 					this.total = data.data.page.count; // 总条数
 					this.pageCount = data.data.page.pageCount; // 总页数
@@ -172,7 +199,7 @@
 				this.currentTab = index;
 				console.log("this.currentTab", this.currentTab)
 				this.isEnd = false;
-				// this.sourceList = [];
+				this.sourceList = [];
 				this.pageParams = {
 					page: 1,
 					pageSize: 10,
@@ -204,6 +231,27 @@
 					}
 				}
 			},
+			// 跳转至资料详情
+			toSourceDetail(source_id) {
+				this.sourceId = source_id;
+				if (this.videoAd) {
+					this.videoAd.show().catch(() => {
+						// 失败重试
+						this.videoAd.load()
+							.then(() => this.videoAd.show())
+							.catch(err => {
+								uni.navigateTo({
+									url: `/pages/sourceInfo/index?sourceId=${this.sourceId}`
+								}) // 拉取失败直接跳转
+							})
+					})
+				} else {
+					// 非微信小程序，直接跳转
+					uni.navigateTo({
+						url: `/pages/sourceInfo/index?sourceId=${this.sourceId}`
+					})
+				}
+			}
 		}
 	}
 </script>

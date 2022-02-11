@@ -61,10 +61,10 @@
 		},
 		data() {
 			return {
-				duration: 300
+				duration: 300,
 			}
 		},
-		mounted(){
+		mounted() {
 			this.duration = 300 + (this.index * 100);
 		},
 		methods: {
@@ -74,9 +74,7 @@
 			},
 			// 跳转到资源详情
 			toSourceDetail() {
-				uni.navigateTo({
-					url: `/pages/sourceInfo/index?sourceId=${this.sourceInfo.source_id}`
-				})
+				this.$emit("toSourceDetail",this.sourceInfo.source_id)
 			}
 		}
 	}

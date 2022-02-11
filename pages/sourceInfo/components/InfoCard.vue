@@ -27,7 +27,7 @@
 						截图
 					</text>
 
-					<img :src="item.response.data.fileUrl" v-for="(item,index) in sourceInfo.source_screen" :key="index"
+					<img class="screen-img" :src="item.response.data.fileUrl" v-for="(item,index) in sourceInfo.source_screen" :key="index"
 						mode="widthFix" @click="previewImage(index)"></img>
 				</view>
 				<!-- 资源发布时间 -->
@@ -348,15 +348,16 @@
 
 			.source-title {
 				width: 100%;
-				height: 100rpx;
+				margin: 20rpx 0;
 				font-size: $uni-font-size-lg;
 				font-weight: 800;
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				padding: 0 40rpx;
+				padding: 0 50rpx;
 				box-sizing: border-box;
 				word-break: break-word;
+				text-align: center;
 			}
 
 			.source_abstract {
@@ -380,7 +381,7 @@
 					font-weight: 600;
 				}
 
-				img {
+				.screen-img {
 					max-width: 80%;
 					box-shadow: 0 13px 15px rgba(31, 45, 61, 0.1);
 					border-radius: $uni-border-radius-base;

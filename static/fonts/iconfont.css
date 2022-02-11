@@ -12,6 +12,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.pig-fankui:before {
+  content: "\e738";
+}
+
+.pig-fankuijianyi:before {
+  content: "\e616";
+}
+
 .pig-iosliulanqidakai:before {
   content: "\e6f9";
 }

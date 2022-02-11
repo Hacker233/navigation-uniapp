@@ -96,6 +96,11 @@
 				"navigationBarTitleText": "我的评论",
 				"enablePullDownRefresh": true
 			}
+		}, {
+			"path": "pages/feedback/index",
+			"style": {
+				"navigationBarTitleText": "联系我们"
+			}
 		}
 	],
 	// 全局样式

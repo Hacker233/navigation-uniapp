@@ -48,7 +48,7 @@
 		</view>
 
 		<!-- 用户菜单区域 -->
-		<view class="user-setting-menu" v-if="userInfo">
+		<view class="user-setting-menu">
 			<user-menu></user-menu>
 		</view>
 	</view>
@@ -246,7 +246,7 @@
 		}
 		
 		.user-setting-menu {
-			max-height: 250rpx;
+			max-height: 360rpx;
 			margin: 160rpx 20rpx 0 20rpx;
 			box-shadow: 0 8px 10px rgba(31, 45, 61, 0.2);
 			padding: 20rpx;

@@ -28,7 +28,7 @@
 				<!-- 简介 -->
 				<view class="website_abstract">
 					<text class="abstract-label">简介：</text>
-					<u--text :text="websiteInfo.website_abstract"></u--text>
+					<u--text :text="websiteInfo.website_abstract" color="#909399"></u--text>
 				</view>
 				<!-- 浏览量等等 -->
 				<view class="website-views">
@@ -62,6 +62,10 @@
 		throttle
 	} from "@/utils/index.js";
 	export default {
+		// 样式穿透
+		options: {
+			styleIsolation: 'shared'
+		},
 		data() {
 			return {
 				websiteId: '',
@@ -216,6 +220,9 @@
 				box-sizing: border-box;
 				display: flex;
 				align-items: flex-start;
+				/deep/ .u-text__value {
+					text-align: justify;
+				}
 			}
 
 			.website-views {
