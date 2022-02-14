@@ -1,4 +1,4 @@
-![](https://visitor-badge.glitch.me/badge?page_id=hacker233.readme)
+![visitors](https://visitor-badge.glitch.me/badge?page_id=Hacker233.navigation-uniapp&left_color=green&right_color=red)
 
 # 科技趣玩
 
