@@ -83,3 +83,11 @@ UI组件库： uview
 
 ![小程序二维码](C:\Users\lanyuan\Desktop\小程序二维码.jpg)
 
+## 官方交流渠道
+
+- 【官方微信交流群】：LHQfighting（备注“加群”）
+- 【微信小程序】：科技趣玩
+- 【小编知乎ID】：[会飞的猪](https://www.zhihu.com/people/luhongquan)
+- 【官方交流QQ群①】：976432879（已满）
+- 【官方交流QQ群②】：947841579
+- 【bilibili账号】：[小猪课堂](https://space.bilibili.com/493520625?spm_id_from=333.1007.0.0)
