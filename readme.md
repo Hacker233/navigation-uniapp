@@ -1,3 +1,5 @@
+![](https://visitor-badge.glitch.me/badge?page_id=hacker233.readme)
+
 # 科技趣玩
 
 ## 项目简介
