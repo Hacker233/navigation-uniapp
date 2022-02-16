@@ -1,51 +1,34 @@
 <template>
 	<view class="recommend-box">
 		<!-- 头部背景图片 -->
-		<img class="bg-img" src="../../static/img/recommend.webp" mode="" />
-
-		<!-- 今日推荐 -->
-		<view class="today-recomment-title">
-			<i class="iconfont pig-ico_zonghexinxi_xuanzhong"></i>
-			<text class="title">今日推荐</text>
-		</view>
-		<!-- 今日推荐卡片列表 -->
-		<view class="recommend-card-list-box">
-			<template v-if="hotTodayList.length">
-				<recommend-list v-for="(item,index) in hotTodayList" :key="index" :itemInfo="item" hottype="today"
-					:index="index" @toDetail="toDetail">
-				</recommend-list>
-			</template>
-			<our-loading v-else active></our-loading>
+		<view class="bg-img">
+			<recommend-design></recommend-design>
 		</view>
 
-		<!-- 热门网站 -->
-		<view class="today-recomment-title hot-website">
-			<i class="iconfont pig-wangzhan1"></i>
-			<text class="title">热门网站</text>
-		</view>
-		<!-- 热门网站推荐卡片 -->
-		<view class="recommend-card-list-box">
-			<template v-if="hotWebsiteList.length">
-				<recommend-list v-for="(item,index) in hotWebsiteList" hottype="website" :itemInfo="item" :key="index"
-					:index="index" @toDetail="toDetail">
-				</recommend-list>
-			</template>
-			<our-loading v-else active></our-loading>
+		<!-- tab栏 -->
+		<view class="tab-box">
+			<!-- tab列表 -->
+			<view :class="['today-recomment-title',{'active': currentIndex === index}]" v-for="(item,index) in tabList"
+				:key="index" @click="getList(item, index)">
+				<i :class="['iconfont', item.iconfont]"></i>
+				<text class="title">{{item.title}}</text>
+			</view>
 		</view>
 
-		<!-- 精选资源 -->
-		<view class="today-recomment-title hot-source">
-			<i class="iconfont pig-ruanjianxiazai2"></i>
-			<text class="title">精选资源</text>
-		</view>
-		<!-- 热门资源推荐卡片 -->
-		<view class="recommend-card-list-box">
-			<template v-if="hotSourceList.length">
-				<recommend-list v-for="(item,index) in hotSourceList" hottype="source" :itemInfo="item" :key="index"
-					:index="index" @toDetail="toDetail">
-				</recommend-list>
-			</template>
-			<our-loading v-else active></our-loading>
+		<!-- 列表栏 -->
+		<view class="list-box">
+			<!-- 今日推荐卡片列表 -->
+			<view class="recommend-card-list-box">
+				<template v-if="recommendList.length">
+					<recommend-list v-for="(item,index) in recommendList" :key="index" :itemInfo="item" :hottype="selectTab"
+						:index="index" @toDetail="toDetail">
+					</recommend-list>
+					<view class="ad-box">
+						<ad unit-id="adunit-52382c340c3ca354"></ad>
+					</view>
+				</template>
+				<our-loading v-else active></our-loading>
+			</view>
 		</view>
 	</view>
 </template>
@@ -59,11 +42,24 @@
 	export default {
 		data() {
 			return {
-				hotTodayList: [],
-				hotWebsiteList: [],
-				hotSourceList: [],
+				recommendList: [],
 				videoAd: null,
 				tourl: '', // 跳转详情的url
+				tabList: [{
+					id: 'today',
+					title: "今日推荐",
+					iconfont: 'pig-ico_zonghexinxi_xuanzhong',
+				}, {
+					id: 'website',
+					title: "热门网站",
+					iconfont: 'pig-wangzhan1',
+				}, {
+					id: 'source',
+					title: "精选资源",
+					iconfont: 'pig-ruanjianxiazai2',
+				}],
+				currentIndex: 0,
+				selectTab: 'today', // 选中的tab
 			}
 		},
 		//监听下拉刷新
@@ -74,8 +70,6 @@
 		},
 		mounted() {
 			this.initToday();
-			this.initHotWebsite();
-			this.initHotSource();
 		},
 		// 广告拉取
 		onLoad() {
@@ -104,11 +98,24 @@
 			}
 		},
 		methods: {
+			// 点击tab获取详细列表
+			getList(item, index) {
+				this.currentIndex = index;
+				this.selectTab = item.id;
+				this.recommendList = [];
+				if (item.id === 'today') {
+					this.initToday();
+				} else if (item.id === 'website') {
+					this.initHotWebsite();
+				} else {
+					this.initHotSource();
+				}
+			},
 			// 获取今日推荐
 			async initToday() {
 				const data = await getRecommendToday();
 				if (data.code === "00000") {
-					this.hotTodayList = data.data;
+					this.recommendList = data.data;
 					uni.stopPullDownRefresh();
 				} else {
 					uni.$u.toast(data.message);
@@ -119,7 +126,7 @@
 			async initHotWebsite() {
 				const data = await getHotWebsite();
 				if (data.code === "00000") {
-					this.hotWebsiteList = data.data;
+					this.recommendList = data.data;
 					uni.stopPullDownRefresh();
 				} else {
 					uni.$u.toast(data.message);
@@ -130,7 +137,7 @@
 			async initHotSource() {
 				const data = await getHotSource();
 				if (data.code === "00000") {
-					this.hotSourceList = data.data;
+					this.recommendList = data.data;
 					uni.stopPullDownRefresh();
 				} else {
 					uni.$u.toast(data.message);
@@ -199,80 +206,99 @@
 			height: 350rpx;
 			width: 100vw;
 			z-index: 1;
-			border-radius: 100% / 0 0 30% 30%;
+			// border-radius: 100% / 0 0 30% 30%;
 			opacity: 0.9;
 		}
 
-		.today-recomment-title {
-			margin-top: 260rpx;
-			margin-bottom: 30rpx;
-			width: 30vw;
-			height: 160rpx;
+		// tab栏目
+		.tab-box {
 			z-index: 2;
-			background: rgba(255, 255, 255, 0.8);
-			border-radius: $uni-border-radius-lg;
-			box-shadow: 0 8px 10px rgba(31, 45, 61, 0.2);
 			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
+			width: 100vw;
+			justify-content: space-around;
+			margin-bottom: 30rpx;
 
-			.iconfont {
-				font-size: 30rpx;
-				color: #333333;
-				width: 60rpx;
-				height: 60rpx;
-				border-radius: 50%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				color: #fff;
-				background: linear-gradient(to right, rgb(170, 170, 127), rgb(213, 51, 186));
-				margin-bottom: 10rpx;
+			.active {
+				box-shadow: 0 10px 10px rgba(31, 45, 61, 0.4);
 			}
 
-			.title {
-				font-size: $uni-font-size-base;
-				font-weight: 600;
-				letter-spacing: 6rpx;
-				margin-left: 6rpx;
-				position: relative;
+			.today-recomment-title {
+				margin-top: 260rpx;
+				width: 23vw;
+				height: 130rpx;
+				z-index: 2;
+				background: rgba(255, 255, 255, 0.8);
+				border-radius: $uni-border-radius-lg;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				transition: all 0.3s;
 
-				&::after {
-					content: "";
-					position: absolute;
-					width: 80rpx;
-					height: 4rpx;
-					border-radius: $uni-border-radius-lg;
+				.iconfont {
+					font-size: 20rpx;
+					color: #333333;
+					width: 40rpx;
+					height: 40rpx;
+					border-radius: 50%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: #fff;
 					background: linear-gradient(to right, rgb(170, 170, 127), rgb(213, 51, 186));
-					bottom: -40%;
-					left: 50%;
-					transform: translate(-50%, 0);
+					margin-bottom: 10rpx;
+				}
+
+				.title {
+					font-size: $uni-font-size-base;
+					font-weight: 600;
+					letter-spacing: 2rpx;
+					margin-left: 6rpx;
+					position: relative;
+
+					&::after {
+						content: "";
+						position: absolute;
+						width: 80rpx;
+						height: 4rpx;
+						border-radius: $uni-border-radius-lg;
+						background: linear-gradient(to right, rgb(170, 170, 127), rgb(213, 51, 186));
+						bottom: -25%;
+						left: 50%;
+						transform: translate(-50%, 0);
+					}
 				}
 			}
 		}
 
-		.recommend-card-list-box {
+		// 列表栏
+		.list-box {
+			width: 100vw;
+			flex: 1;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			padding-top: 30rpx;
-			box-sizing: border-box;
-			width: 90vw;
-			background: rgba(255, 255, 255, 0.3);
-			border-radius: $uni-border-radius-lg;
-			box-shadow: 0 8px 10px rgba(31, 45, 61, 0.2);
-			min-height: 220rpx;
-			position: relative;
-			margin-bottom: 10rpx;
+
+			.recommend-card-list-box {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding-top: 30rpx;
+				box-sizing: border-box;
+				width: 90vw;
+				background: rgba(255, 255, 255, 0.3);
+				border-radius: $uni-border-radius-lg;
+				box-shadow: 0 8px 10px rgba(31, 45, 61, 0.2);
+				min-height: 220rpx;
+				position: relative;
+				margin-bottom: 10rpx;
+
+				.ad-box {
+					margin-bottom: 20rpx;
+				}
+			}
 		}
 
-		.hot-website {
-			margin-top: 50rpx;
-		}
 
-		.hot-source {
-			margin-top: 50rpx;
-		}
 	}
 </style>
