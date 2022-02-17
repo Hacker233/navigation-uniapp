@@ -9,7 +9,8 @@
 		<template v-if="menuList.length">
 			<view class="website-list-wraper">
 				<view class="list-item-box" v-for="(item,index) in menuList" :key="index">
-					<website-list :menuInfo="item" :index="index"></website-list>
+					<!-- <website-list :menuInfo="item" :index="index"></website-list> -->
+					<website-design :menuInfo="item" :index="index+1"></website-design>
 				</view>
 			</view>
 		</template>
@@ -104,6 +105,7 @@
 	page {
 		background: linear-gradient(to right, rgba(170, 170, 127, 0.1), rgba(213, 51, 186, 0.1));
 	}
+
 	.content {
 		.website-list-wraper {
 			width: 100%;
