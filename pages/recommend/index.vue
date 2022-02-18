@@ -20,6 +20,15 @@
 			<!-- 今日推荐卡片列表 -->
 			<view class="recommend-card-list-box">
 				<template v-if="recommendList.length">
+					<recommend-card v-for="(item,index) in recommendList" :key="index" :index="index" :itemInfo="item"
+						:hottype="selectTab" @toDetail="toDetail"></recommend-card>
+						<!-- 广告组件 -->
+						<view class="ad-box">
+							<ad unit-id="adunit-52382c340c3ca354"></ad>
+						</view>
+				</template>
+				<our-loading v-else active></our-loading>
+				<!-- <template v-if="recommendList.length">
 					<recommend-list v-for="(item,index) in recommendList" :key="index" :itemInfo="item" :hottype="selectTab"
 						:index="index" @toDetail="toDetail">
 					</recommend-list>
@@ -27,8 +36,9 @@
 						<ad unit-id="adunit-52382c340c3ca354"></ad>
 					</view>
 				</template>
-				<our-loading v-else active></our-loading>
+				<our-loading v-else active></our-loading> -->
 			</view>
+
 		</view>
 	</view>
 </template>
@@ -64,9 +74,10 @@
 		},
 		//监听下拉刷新
 		onPullDownRefresh() {
+			this.recommendList = [];
+			this.currentIndex = 0;
+			this.selectTab = 'today', // 选中的tab
 			this.initToday();
-			this.initHotWebsite();
-			this.initHotSource();
 		},
 		mounted() {
 			this.initToday();
@@ -192,7 +203,7 @@
 
 <style lang="scss">
 	page {
-		padding: 0 0 30rpx 0;
+		padding: 0;
 		background: linear-gradient(to right, rgba(170, 170, 127, 0.1), rgba(213, 51, 186, 0.1));
 	}
 
@@ -202,11 +213,9 @@
 		flex-direction: column;
 
 		.bg-img {
-			position: absolute;
-			height: 350rpx;
+			height: 300rpx;
 			width: 100vw;
 			z-index: 1;
-			// border-radius: 100% / 0 0 30% 30%;
 			opacity: 0.9;
 		}
 
@@ -216,14 +225,14 @@
 			display: flex;
 			width: 100vw;
 			justify-content: space-around;
-			margin-bottom: 30rpx;
+			position: absolute;
+			top: 240rpx;
 
 			.active {
 				box-shadow: 0 10px 10px rgba(31, 45, 61, 0.4);
 			}
 
 			.today-recomment-title {
-				margin-top: 260rpx;
 				width: 23vw;
 				height: 130rpx;
 				z-index: 2;
@@ -280,22 +289,17 @@
 			align-items: center;
 
 			.recommend-card-list-box {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				padding-top: 30rpx;
-				box-sizing: border-box;
-				width: 90vw;
-				background: rgba(255, 255, 255, 0.3);
-				border-radius: $uni-border-radius-lg;
-				box-shadow: 0 8px 10px rgba(31, 45, 61, 0.2);
-				min-height: 220rpx;
-				position: relative;
-				margin-bottom: 10rpx;
-
-				.ad-box {
-					margin-bottom: 20rpx;
-				}
+				width: 100vw;
+				min-height: 50vh;
+				// background:
+				// 	radial-gradient(farthest-side at top right, #42b132 98%, #0000) calc(50% - 10px) 0/20px 20px no-repeat,
+				// 	radial-gradient(farthest-side at bottom right, #42b132 98%, #0000) calc(50% - 10px) 100%/20px 20px no-repeat,
+				// 	linear-gradient(90deg, #fcd000 50%, #009cda 0);
+				// background:
+				// 	radial-gradient(farthest-side at top right, #42b132 98%, #0000) calc(50% - 10px) 0/20px 20px no-repeat,
+				// 	radial-gradient(farthest-side at bottom right, #42b132 98%, #0000) calc(50% - 10px) 100%/20px 20px no-repeat,
+				// 	linear-gradient(90deg, #fcd000 50%, #009cda 0);
+				padding: 100rpx 0 30rpx 0;
 			}
 		}
 

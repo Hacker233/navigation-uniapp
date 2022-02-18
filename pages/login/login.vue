@@ -122,6 +122,7 @@
 						title: '登录成功'
 					});
 					this.$store.dispatch("getUserInfo"); // 获取用户信息
+					this.$store.dispatch("getUserlevelInfo"); // 获取用户积分信息
 					if (uni.getStorageSync('redirectURL')) {
 						uni.navigateBack();
 					} else {

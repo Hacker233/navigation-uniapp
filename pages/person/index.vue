@@ -4,6 +4,7 @@
 		<view class="userInfo-box">
 			<!-- 背景图 -->
 			<img class="bgc-img" :src="backgroundImage" mode="" />
+			<!-- <person-design></person-design> -->
 			<view class="status_bar">
 				<!-- 这里是状态栏 -->
 			</view>
@@ -31,8 +32,11 @@
 				<!-- 用户名称 -->
 				<view class="right">
 					<template v-if="userInfo">
-						<view class="username">
-							{{userInfo.username}}
+						<view class="user-detail">
+							<!-- 用户名 -->
+							<view class="username">
+								{{userInfo.username}}
+							</view>
 						</view>
 					</template>
 					<template v-else>
@@ -43,6 +47,21 @@
 				<view class="signature" v-if="userInfo">
 					{{userInfo.signature}}
 					<i class="iconfont pig-changyong_pingjia" @click="changeSignature"></i>
+				</view>
+
+				<!-- 其它信息区域 -->
+				<view class="user-other-info">
+					<!-- 用户积分 -->
+					<view class="userlevel">
+						<text class="score-num"><i class="iconfont pig-jifen1"></i>{{userlevelInfo.level_score}}</text>
+						<text class="my-score">我的积分</text>
+					</view>
+					<u-line direction="col"></u-line>
+					<!-- 签到 -->
+					<view class="user-sign">
+						<i class="iconfont pig-qiandao1"></i>
+						<text>去签到</text>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -65,17 +84,23 @@
 			}
 		},
 		computed: {
+			// 用户基本信息
 			userInfo() {
 				return this.$store.state.userInfo
+			},
+			// 用户积分信息
+			userlevelInfo() {
+				return this.$store.state.userlevelInfo
 			}
 		},
 		onShow() {
 			let randNum = this.getRandomInt(1, 8);
-			this.backgroundImage = `https://smallpig.site:9000/navigation/bg/bg-${randNum}.jpg`
+			this.backgroundImage = `https://smallpig.site:9000/navigation/bg/bg-${randNum}.jpg`;
 		},
 		components: {
 			UserMenu
 		},
+		mounted() {},
 		methods: {
 			// 获取随机数
 			getRandomInt(min, max) {
@@ -175,7 +200,7 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				padding: 20rpx 0 20rpx 0;
+				padding: 20rpx 0 0 0;
 				box-shadow: 0 8px 10px rgba(31, 45, 61, 0.2);
 			}
 
@@ -213,10 +238,15 @@
 				align-items: center;
 				justify-content: center;
 
-				.username {
-					font-size: $uni-font-size-lg;
-					margin-bottom: 10rpx;
-					font-weight: 600;
+				.user-detail {
+					display: flex;
+					flex-direction: column;
+
+					.username {
+						font-size: $uni-font-size-lg;
+						margin-bottom: 10rpx;
+						font-weight: 600;
+					}
 				}
 
 				.toLogin {
@@ -238,16 +268,59 @@
 					margin-left: 20rpx;
 				}
 			}
+
+			.user-other-info {
+				height: 100rpx;
+				width: 80vw;
+				margin-top: 20rpx;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-top: 1px solid #ccc;
+
+				.userlevel {
+					height: 100%;
+					flex: 1;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					color: #ccac09;
+					font-size: 20rpx;
+
+					.score-num {
+						.iconfont {
+							margin-right: 6rpx;
+						}
+					}
+
+					.my-score {
+						font-size: 20rpx;
+					}
+				}
+
+				// 签到
+				.user-sign {
+					height: 100%;
+					flex: 1;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					color: #ccac09;
+					font-size: 20rpx;
+				}
+			}
 		}
 
 		// 菜单列表
 		.my-like-box {
 			margin: 140rpx 0;
 		}
-		
+
 		.user-setting-menu {
 			max-height: 360rpx;
-			margin: 160rpx 20rpx 0 20rpx;
+			margin: 240rpx 20rpx 0 20rpx;
 			box-shadow: 0 8px 10px rgba(31, 45, 61, 0.2);
 			padding: 20rpx;
 			box-sizing: border-box;

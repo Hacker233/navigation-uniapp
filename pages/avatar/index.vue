@@ -62,6 +62,7 @@
 					})
 					uni.navigateBack({});
 					this.$store.dispatch("getUserInfo"); // 获取用户信息
+					this.$store.dispatch("getUserlevelInfo"); // 获取用户积分信息
 				} else {
 					uni.showToast({
 						icon: "error",

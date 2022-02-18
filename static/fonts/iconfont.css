@@ -12,6 +12,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.pig-qiandao:before {
+  content: "\e65d";
+}
+
+.pig-qiandao1:before {
+  content: "\e641";
+}
+
+.pig-jifen:before {
+  content: "\e617";
+}
+
+.pig-jifen1:before {
+  content: "\e631";
+}
+
 .pig-fankui:before {
   content: "\e738";
 }
@@ -623,3 +639,4 @@
 .pig-wangzhan:before {
   content: "\e7fe";
 }
+
