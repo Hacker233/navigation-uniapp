@@ -12,6 +12,34 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.pig-jingwuicon_svg-:before {
+  content: "\e65f";
+}
+
+.pig-che:before {
+  content: "\e6fa";
+}
+
+.pig-zhaoshangxiaochengxu-kanbangdan:before {
+  content: "\e62d";
+}
+
+.pig-icon_xinyong_xianxing_jijin-:before {
+  content: "\e637";
+}
+
+.pig-yingxiaowangzhan:before {
+  content: "\e646";
+}
+
+.pig-bangdan:before {
+  content: "\e6a6";
+}
+
+.pig-wode:before {
+  content: "\e619";
+}
+
 .pig-qiandao:before {
   content: "\e65d";
 }
@@ -639,4 +667,5 @@
 .pig-wangzhan:before {
   content: "\e7fe";
 }
+
 

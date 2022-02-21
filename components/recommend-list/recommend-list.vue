@@ -179,6 +179,7 @@
 		display: flex;
 		overflow: hidden;
 		box-sizing: border-box;
+		margin: 0 auto;
 		margin-bottom: 30rpx;
 		position: relative;
 

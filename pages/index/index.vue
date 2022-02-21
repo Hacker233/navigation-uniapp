@@ -15,6 +15,9 @@
 			</view>
 		</template>
 		<our-loading v-else active></our-loading>
+		
+		<!-- tabbar -->
+		<tab-bar></tab-bar>
 	</view>
 </template>
 

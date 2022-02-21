@@ -112,30 +112,31 @@
 	},
 	// tabbar
 	"tabBar": {
-		"color": "#333",
-		"selectedColor": "#007AFF",
-		"backgroundColor": "#FFFFFF",
-		"borderStyle": "white",
+		"custom": true,
+		// "color": "#333",
+		// "selectedColor": "#007AFF",
+		// "backgroundColor": "#FFFFFF",
+		// "borderStyle": "white",
 		"list": [{
-			"pagePath": "pages/recommend/index",
-			"selectedIconPath": "static/tabBar/recommend-select.png",
-			"iconPath": "static/tabBar/recommend.png",
-			"text": "推荐"
+			"pagePath": "pages/recommend/index"
+			// "selectedIconPath": "static/tabBar/recommend-select.png",
+			// "iconPath": "static/tabBar/recommend.png",
+			// "text": "推荐"
 		}, {
-			"pagePath": "pages/index/index",
-			"selectedIconPath": "static/tabBar/home-select.png",
-			"iconPath": "static/tabBar/home.png",
-			"text": "网站"
+			"pagePath": "pages/index/index"
+			// "selectedIconPath": "static/tabBar/home-select.png",
+			// "iconPath": "static/tabBar/home.png",
+			// "text": "网站"
 		}, {
-			"pagePath": "pages/create/index",
-			"text": "资源",
-			"iconPath": "static/tabBar/chat.png",
-			"selectedIconPath": "static/tabBar/chat-slelect.png"
+			"pagePath": "pages/create/index"
+			// "text": "资源",
+			// "iconPath": "static/tabBar/chat.png",
+			// "selectedIconPath": "static/tabBar/chat-slelect.png"
 		}, {
-			"pagePath": "pages/person/index",
-			"text": "我的",
-			"iconPath": "static/tabBar/person.png",
-			"selectedIconPath": "static/tabBar/person-select.png"
+			"pagePath": "pages/person/index"
+			// "text": "我的",
+			// "iconPath": "static/tabBar/person.png",
+			// "selectedIconPath": "static/tabBar/person-select.png"
 		}]
 	},
 	"easycom": {

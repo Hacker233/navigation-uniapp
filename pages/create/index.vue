@@ -38,6 +38,12 @@
 
 		<!-- 滚动到顶部 -->
 		<u-back-top :scroll-top="scrollTop"></u-back-top>
+		
+		<!-- 确认弹窗 -->
+		<u-modal :show="showad" @confirm="confirm" @cancel="cancle" showCancelButton ref="uModal" content="需要观看一段广告方可进入哦!"></u-modal>
+		
+		<!-- tabbar -->
+		<tab-bar></tab-bar>
 	</view>
 </template>
 
@@ -78,7 +84,8 @@
 				},
 				isShowNoData: false,
 				videoAd: null, // 是否加载激励广告
-				sourceId: ''
+				sourceId: '',
+				showad: false
 			}
 		},
 		//监听下拉刷新
@@ -231,9 +238,8 @@
 					}
 				}
 			},
-			// 跳转至资料详情
-			toSourceDetail(source_id) {
-				this.sourceId = source_id;
+			confirm(){
+				this.showad = false;
 				if (this.videoAd) {
 					this.videoAd.show().catch(() => {
 						// 失败重试
@@ -251,6 +257,14 @@
 						url: `/pages/sourceInfo/index?sourceId=${this.sourceId}`
 					})
 				}
+			},
+			cancle(){
+				this.showad = false;
+			},
+			// 跳转至资料详情
+			toSourceDetail(source_id) {
+				this.sourceId = source_id;
+				this.showad = true;
 			}
 		}
 	}

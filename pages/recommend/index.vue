@@ -19,27 +19,29 @@
 		<view class="list-box">
 			<!-- 今日推荐卡片列表 -->
 			<view class="recommend-card-list-box">
-				<template v-if="recommendList.length">
+				<!-- <template v-if="recommendList.length">
 					<recommend-card v-for="(item,index) in recommendList" :key="index" :index="index" :itemInfo="item"
 						:hottype="selectTab" @toDetail="toDetail"></recommend-card>
-						<!-- 广告组件 -->
 						<view class="ad-box">
 							<ad unit-id="adunit-52382c340c3ca354"></ad>
 						</view>
 				</template>
-				<our-loading v-else active></our-loading>
-				<!-- <template v-if="recommendList.length">
-					<recommend-list v-for="(item,index) in recommendList" :key="index" :itemInfo="item" :hottype="selectTab"
-						:index="index" @toDetail="toDetail">
+				<our-loading v-else active></our-loading> -->
+				<template v-if="recommendList.length">
+					<recommend-list v-for="(item,index) in recommendList" :key="index" :itemInfo="item"
+						:hottype="selectTab" :index="index" @toDetail="toDetail">
 					</recommend-list>
 					<view class="ad-box">
 						<ad unit-id="adunit-52382c340c3ca354"></ad>
 					</view>
 				</template>
-				<our-loading v-else active></our-loading> -->
+				<our-loading v-else active></our-loading>
 			</view>
 
 		</view>
+
+		<!-- tabbar -->
+		<tab-bar></tab-bar>
 	</view>
 </template>
 
@@ -77,7 +79,7 @@
 			this.recommendList = [];
 			this.currentIndex = 0;
 			this.selectTab = 'today', // 选中的tab
-			this.initToday();
+				this.initToday();
 		},
 		mounted() {
 			this.initToday();
@@ -300,6 +302,11 @@
 				// 	radial-gradient(farthest-side at bottom right, #42b132 98%, #0000) calc(50% - 10px) 100%/20px 20px no-repeat,
 				// 	linear-gradient(90deg, #fcd000 50%, #009cda 0);
 				padding: 100rpx 0 30rpx 0;
+			}
+
+			.ad-box {
+				width: 80vw;
+				margin: 0 auto;
 			}
 		}
 

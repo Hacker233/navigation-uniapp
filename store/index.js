@@ -6,6 +6,9 @@ import {
 import {
 	getUserlevelInfo
 } from "@/http/api/userlevel"
+import {
+	getTabbar
+} from "@/http/api/tabbar"
 Vue.use(Vuex);
 
 
@@ -13,6 +16,8 @@ export default new Vuex.Store({
 	state: {
 		userInfo: "", //用户信息
 		userlevelInfo: '', // 用户积分信息
+		tabbar: [], // 底部导航栏
+		tabIndex: 0, // 选中第几个菜单
 		token: uni.getStorageSync("token") ?
 			uni.getStorageSync("token") : false, // token
 	},
@@ -29,7 +34,15 @@ export default new Vuex.Store({
 		// 获取用户积分信息后存储下来
 		setUserlevelInfo(state, userlevelInfo) {
 			state.userlevelInfo = userlevelInfo;
-		}
+		},
+		// 修改选中tabbar
+		setTabbarindex(state, index) {
+			state.tabIndex = index;
+		},
+		// 保存tabbar
+		setTabbarList(state, tabbar) {
+			state.tabbar = tabbar;
+		},
 	},
 	actions: {
 		// 查询用户信息
@@ -66,6 +79,16 @@ export default new Vuex.Store({
 				context.commit("setUserlevelInfo", "");
 			}
 		},
+		// 获取tabbar
+		async getTabbarList(context) {
+			const data = await getTabbar();
+			if (data.code === "00000") {
+				uni.setStorageSync("setTabbarList", JSON.stringify(data.data));
+				context.commit("setTabbarList", data.data);
+			} else {
+				uni.$u.toast(data.message);
+			}
+		}
 	},
 	getters: {}
 })

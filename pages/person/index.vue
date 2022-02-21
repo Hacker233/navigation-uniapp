@@ -52,13 +52,13 @@
 				<!-- 其它信息区域 -->
 				<view class="user-other-info">
 					<!-- 用户积分 -->
-					<view class="userlevel">
+					<view class="userlevel" @click="toscore">
 						<text class="score-num"><i class="iconfont pig-jifen1"></i>{{userlevelInfo.level_score}}</text>
 						<text class="my-score">我的积分</text>
 					</view>
 					<u-line direction="col"></u-line>
 					<!-- 签到 -->
-					<view class="user-sign">
+					<view class="user-sign" @click="tosign">
 						<i class="iconfont pig-qiandao1"></i>
 						<text>去签到</text>
 					</view>
@@ -70,6 +70,9 @@
 		<view class="user-setting-menu">
 			<user-menu></user-menu>
 		</view>
+		
+		<!-- tabbar -->
+		<tab-bar></tab-bar>
 	</view>
 </template>
 
@@ -129,6 +132,14 @@
 				uni.navigateTo({
 					url: `/pages/signature/index?oldSignature=${this.userInfo.signature}`
 				})
+			},
+			// 跳转至积分
+			toscore(){
+				uni.$u.toast("卖力开发中");
+			},
+			// 跳转至签到
+			tosign(){
+				uni.$u.toast("卖力开发中");
 			}
 		},
 	}
