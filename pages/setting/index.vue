@@ -15,6 +15,7 @@
 			loginOut() {
 				this.$store.commit("setUserInfo", ''); // 清除用户信息
 				this.$store.commit("setAuthorization", ''); // 清楚token
+				this.$store.dispatch("getUserlevelInfo"); // 获取用户积分信息
 				uni.clearStorage();
 				uni.navigateBack({});
 			},

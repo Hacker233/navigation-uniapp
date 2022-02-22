@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "moment": "^2.29.1",
     "prismjs": "^1.25.0",
     "uniapp-route-guards": "^1.0.7"
   }

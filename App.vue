@@ -8,7 +8,14 @@
 			this.init();
 		},
 		onShow: function() {
-			console.log('App Show')
+			let pages = getCurrentPages() // 获取栈实例
+			if (pages.length) {
+				let page = pages[pages.length - 1].route // 获取当前页面的数据，包含页面路由
+				uni.setStorageSync("tabIndex", uni.getStorageSync('tabIndex'));
+			} else {
+				uni.setStorageSync("tabIndex", 0);
+			}
+			console.log("选中的tab", uni.getStorageSync('tabIndex'))
 			//隐藏官方tabbar
 			uni.hideTabBar()
 		},

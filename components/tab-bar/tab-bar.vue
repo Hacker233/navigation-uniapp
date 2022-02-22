@@ -1,6 +1,5 @@
 <template>
-	<u-tabbar :value="tabIndex" :fixed="true" :placeholder="true" :safeAreaInsetBottom="true"
-		zIndex="99">
+	<u-tabbar :value="tabIndex" :fixed="true" :placeholder="true" :safeAreaInsetBottom="true" zIndex="99">
 		<template v-for="(item,index) in tabbar">
 			<u-tabbar-item v-if="item.tabbar_show === 1" :key="index" :name="index" :text="item.tabbar_name"
 				@click="toPage">
@@ -49,6 +48,7 @@
 		},
 		methods: {
 			toPage(index) {
+				console.log("index", index)
 				this.$store.commit('setTabbarindex', index);
 				uni.switchTab({
 					url: this.$store.state.tabbar[index].tabbar_path,

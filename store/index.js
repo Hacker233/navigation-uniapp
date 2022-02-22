@@ -38,6 +38,7 @@ export default new Vuex.Store({
 		// 修改选中tabbar
 		setTabbarindex(state, index) {
 			state.tabIndex = index;
+			uni.setStorageSync("tabIndex", index);
 		},
 		// 保存tabbar
 		setTabbarList(state, tabbar) {

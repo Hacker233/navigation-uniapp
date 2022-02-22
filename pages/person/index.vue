@@ -53,14 +53,18 @@
 				<view class="user-other-info">
 					<!-- 用户积分 -->
 					<view class="userlevel" @click="toscore">
-						<text class="score-num"><i class="iconfont pig-jifen1"></i>{{userlevelInfo.level_score}}</text>
+						<view class="score-num">
+							<i class="iconfont pig-jifen1"></i>
+							<text class="score-text">{{userlevelInfo.level_score || 0}}</text>
+						</view>
 						<text class="my-score">我的积分</text>
 					</view>
 					<u-line direction="col"></u-line>
 					<!-- 签到 -->
 					<view class="user-sign" @click="tosign">
 						<i class="iconfont pig-qiandao1"></i>
-						<text>去签到</text>
+						<text v-show="!toIsSign">签到</text>
+						<text v-show="toIsSign">已签到</text>
 					</view>
 				</view>
 			</view>
@@ -70,20 +74,35 @@
 		<view class="user-setting-menu">
 			<user-menu></user-menu>
 		</view>
-		
+
 		<!-- tabbar -->
 		<tab-bar></tab-bar>
+
+		<!-- 签到弹窗 -->
+		<sign-dialog :show="show" @closeDialog="closeDialog"></sign-dialog>
 	</view>
 </template>
 
 <script>
 	import UserMenu from "./components/UserMenu.vue"
 	import CONFIG from "@/config/index.js"
+	import moment from 'moment'
+	import {
+		throttle
+	} from "@/utils/throttle.js"; //引入节流函数
+	import {
+		getUserSignList,
+		userSign
+	} from "@/http/api/sign"
 	export default {
 		data() {
 			return {
 				show: false,
 				backgroundImage: 'https://smallpig.site:9000/navigation/bg/bg-1.jpg',
+				show: false, // 签到弹窗
+				signList: [],
+				toIsSign: false, // 今日是否签到
+				today: moment(new Date()).format("YYYY-MM-DD")
 			}
 		},
 		computed: {
@@ -99,6 +118,10 @@
 		onShow() {
 			let randNum = this.getRandomInt(1, 8);
 			this.backgroundImage = `https://smallpig.site:9000/navigation/bg/bg-${randNum}.jpg`;
+			// 获取用户签到信息
+			if (uni.getStorageSync("token")) {
+				this.getUserSignListInfo();
+			}
 		},
 		components: {
 			UserMenu
@@ -108,6 +131,24 @@
 			// 获取随机数
 			getRandomInt(min, max) {
 				return Math.floor(Math.random() * (max - min + 1)) + min;
+			},
+			// 获取用户签到信息
+			async getUserSignListInfo() {
+				const data = await getUserSignList();
+				if (data.code === "00000") {
+					if (data.data.length) {
+						this.signList = data.data; // 签到列表
+						if (this.today == this.signList[0].sign_last) {
+							this.toIsSign = true;
+						} else {
+							this.toIsSign = false;
+						}
+					} else {
+						this.toIsSign = false;
+					}
+				} else {
+					uni.$u.toast("请求签到信息失败！");
+				}
 			},
 			// 跳转到登录页面
 			toLogin() {
@@ -134,13 +175,44 @@
 				})
 			},
 			// 跳转至积分
-			toscore(){
+			toscore() {
 				uni.$u.toast("卖力开发中");
 			},
+			tosign: throttle(async function() {
+				if (this.toIsSign) {
+					uni.$u.toast("今日已签到");
+					return;
+				} else {
+					const data = await userSign();
+					if (data.code === "00000") {
+						this.getUserSignListInfo();
+						this.$store.dispatch("getUserlevelInfo"); // 获取用户积分信息
+						uni.$u.toast("签到成功，积分+1");
+					} else {
+						uni.$u.toast(data.message);
+					}
+				}
+			}),
 			// 跳转至签到
-			tosign(){
-				uni.$u.toast("卖力开发中");
-			}
+			// async tosign() {
+			// 	if (this.toIsSign) {
+			// 		uni.$u.toast("今日已签到");
+			// 		return;
+			// 	} else {
+			// 		const data = await userSign();
+			// 		if (data.code === "00000") {
+			// 			this.getUserSignListInfo();
+			// 			this.$store.dispatch("getUserlevelInfo"); // 获取用户积分信息
+			// 			uni.$u.toast("签到成功，积分+1");
+			// 		} else {
+			// 			uni.$u.toast(data.message);
+			// 		}
+			// 	}
+			// },
+			// 关闭签到弹窗
+			closeDialog() {
+				this.show = false;
+			},
 		},
 	}
 </script>
@@ -300,8 +372,16 @@
 					font-size: 20rpx;
 
 					.score-num {
+						display: flex;
+
 						.iconfont {
 							margin-right: 6rpx;
+						}
+
+						.score-text {
+							display: flex;
+							align-items: center;
+							padding: 0 0 2rpx 0;
 						}
 					}
 
@@ -319,7 +399,7 @@
 					align-items: center;
 					justify-content: center;
 					color: #ccac09;
-					font-size: 20rpx;
+					font-size: 24rpx;
 				}
 			}
 		}

@@ -39,9 +39,13 @@
 			</view>
 
 		</view>
+		<!-- 确认弹窗 -->
+		<u-modal :show="showad" @confirm="confirm" @cancel="cancle" showCancelButton ref="uModal"
+			content="需要观看一段广告方可进入哦!"></u-modal>
 
 		<!-- tabbar -->
 		<tab-bar></tab-bar>
+
 	</view>
 </template>
 
@@ -57,6 +61,7 @@
 				recommendList: [],
 				videoAd: null,
 				tourl: '', // 跳转详情的url
+				showad: false, // 是否显示弹窗
 				tabList: [{
 					id: 'today',
 					title: "今日推荐",
@@ -72,6 +77,9 @@
 				}],
 				currentIndex: 0,
 				selectTab: 'today', // 选中的tab
+
+				name: '',
+				id: ''
 			}
 		},
 		//监听下拉刷新
@@ -157,10 +165,13 @@
 					uni.stopPullDownRefresh();
 				}
 			},
-			// 跳转至卡片详情
-			toDetail(name, id) {
-				if (name === 'website') {
-					this.tourl = `../../pages/website/index?websiteId=${id}`
+			cancle() {
+				this.showad = false;
+			},
+			confirm() {
+				this.showad = false;
+				if (this.name === 'website') {
+					this.tourl = `../../pages/website/index?websiteId=${this.id}`
 					if (this.videoAd) {
 						this.videoAd.show().catch(() => {
 							// 失败重试
@@ -179,7 +190,7 @@
 						})
 					}
 				} else {
-					this.tourl = `/pages/sourceInfo/index?sourceId=${id}`;
+					this.tourl = `/pages/sourceInfo/index?sourceId=${this.id}`;
 					if (this.videoAd) {
 						this.videoAd.show().catch(() => {
 							// 失败重试
@@ -198,6 +209,12 @@
 						})
 					}
 				}
+			},
+			// 跳转至卡片详情
+			toDetail(name, id) {
+				this.name = name;
+				this.id = id;
+				this.showad = true;
 			}
 		}
 	}
