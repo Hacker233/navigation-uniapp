@@ -37,7 +37,6 @@ export const request = (options) => {
 					// resolve(res.data);
 				} else {
 					// 存储token到本地
-					console.log(res)
 					resolve(res.data);
 				}
 			},

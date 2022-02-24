@@ -2,7 +2,7 @@
 	<view class="create-box">
 		<!-- 轮播图 -->
 		<view class="u-demo-block">
-			<u-swiper :list="fileterCarouselList" previousMargin="30" nextMargin="30" circular radius="5"
+			<u-swiper :list="fileterCarouselList" previousMargin="10" nextMargin="10" circular radius="5"
 				imgMode="scaleToFill" :height="150" bgColor="#ffffff" @click="clickSwiper"></u-swiper>
 		</view>
 
@@ -38,10 +38,11 @@
 
 		<!-- 滚动到顶部 -->
 		<u-back-top :scroll-top="scrollTop"></u-back-top>
-		
+
 		<!-- 确认弹窗 -->
-		<u-modal :show="showad" @confirm="confirm" @cancel="cancle" showCancelButton ref="uModal" content="需要观看一段广告方可进入哦!"></u-modal>
-		
+		<u-modal :show="showad" @confirm="confirm" @cancel="cancle" showCancelButton ref="uModal"
+			content="需要观看一段广告方可进入哦!"></u-modal>
+
 		<!-- tabbar -->
 		<tab-bar></tab-bar>
 	</view>
@@ -85,8 +86,18 @@
 				isShowNoData: false,
 				videoAd: null, // 是否加载激励广告
 				sourceId: '',
-				showad: false
+				showad: false,
+				interstitialAd: null, // 弹窗广告
 			}
+		},
+		onShow(){
+			// 在适合的场景显示插屏广告
+			// if (this.interstitialAd) {
+			// 	console.log("弹窗广告")
+			// 	this.interstitialAd.show().catch((err) => {
+			// 		console.error(err)
+			// 	})
+			// }
 		},
 		//监听下拉刷新
 		onPullDownRefresh() {
@@ -111,6 +122,7 @@
 			this.querySourceByCategoryAsync();
 		},
 		onLoad() {
+			// #ifdef MP-WEIXIN
 			if (wx.createRewardedVideoAd) {
 				this.videoAd = wx.createRewardedVideoAd({
 					adUnitId: 'adunit-9107224b678eda79'
@@ -134,10 +146,30 @@
 					}
 				})
 			}
+
+			// 在页面onLoad回调事件中创建插屏广告实例
+			if (wx.createInterstitialAd) {
+				this.interstitialAd = wx.createInterstitialAd({
+					adUnitId: 'adunit-fb3277fee290149f'
+				})
+				this.interstitialAd.onLoad(() => {
+					console.log("弹窗广告加载")
+				})
+				this.interstitialAd.onError((err) => {})
+				this.interstitialAd.onClose(() => {})
+			}
+			// #endif
 		},
 		mounted() {
 			this.getSocategoryAll();
-			this.getCarsouelByPageAsync()
+			this.getCarsouelByPageAsync();
+			// 在适合的场景显示插屏广告
+			if (this.interstitialAd) {
+				console.log("弹窗广告")
+				this.interstitialAd.show().catch((err) => {
+					console.error(err)
+				})
+			}
 		},
 		methods: {
 			// 初始化分类列表
@@ -184,7 +216,6 @@
 				const data = await querySourceByCategory(params);
 				if (data.code === "00000") {
 					this.sourceList = this.sourceList.concat(data.data.data);
-					console.log("this.sourceList", this.sourceList)
 					this.total = data.data.page.count; // 总条数
 					this.pageCount = data.data.page.pageCount; // 总页数
 					this.currentPage = data.data.page.currentPage; // 当前页
@@ -238,7 +269,7 @@
 					}
 				}
 			},
-			confirm(){
+			confirm() {
 				this.showad = false;
 				if (this.videoAd) {
 					this.videoAd.show().catch(() => {
@@ -258,7 +289,7 @@
 					})
 				}
 			},
-			cancle(){
+			cancle() {
 				this.showad = false;
 			},
 			// 跳转至资料详情

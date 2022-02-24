@@ -17,7 +17,7 @@ export default new Vuex.Store({
 		userInfo: "", //用户信息
 		userlevelInfo: '', // 用户积分信息
 		tabbar: [], // 底部导航栏
-		tabIndex: 0, // 选中第几个菜单
+		tabIndex: uni.getStorageSync('tabIndex') || 0, // 选中第几个菜单
 		token: uni.getStorageSync("token") ?
 			uni.getStorageSync("token") : false, // token
 	},

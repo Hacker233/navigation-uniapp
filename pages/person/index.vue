@@ -176,7 +176,7 @@
 			},
 			// 跳转至积分
 			toscore() {
-				uni.$u.toast("卖力开发中");
+				// uni.$u.toast("卖力开发中");
 			},
 			tosign: throttle(async function() {
 				if (this.toIsSign) {

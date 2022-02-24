@@ -48,8 +48,7 @@
 		},
 		methods: {
 			toPage(index) {
-				console.log("index", index)
-				this.$store.commit('setTabbarindex', index);
+				this.$store.commit('setTabbarindex', index); // 保存tab选中状态
 				uni.switchTab({
 					url: this.$store.state.tabbar[index].tabbar_path,
 				})

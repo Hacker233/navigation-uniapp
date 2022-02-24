@@ -28,13 +28,16 @@
 				</template>
 				<our-loading v-else active></our-loading> -->
 				<template v-if="recommendList.length">
-					<recommend-list v-for="(item,index) in recommendList" :key="index" :itemInfo="item"
-						:hottype="selectTab" :index="index" @toDetail="toDetail">
-					</recommend-list>
+					<recommend-list-new v-for="(item,index) in recommendList" :key="index" :itemInfo="item"
+						:hottype="selectTab" :index="index" @toDetail="toDetail"></recommend-list-new>
 					<view class="ad-box">
 						<ad unit-id="adunit-52382c340c3ca354"></ad>
 					</view>
 				</template>
+				<!-- <recommend-list v-for="(item,index) in recommendList" :key="index" :itemInfo="item"
+						:hottype="selectTab" :index="index" @toDetail="toDetail">
+					</recommend-list> -->
+
 				<our-loading v-else active></our-loading>
 			</view>
 
@@ -94,6 +97,7 @@
 		},
 		// 广告拉取
 		onLoad() {
+			// #ifdef MP-WEIXIN
 			if (wx.createRewardedVideoAd) {
 				this.videoAd = wx.createRewardedVideoAd({
 					adUnitId: 'adunit-9107224b678eda79'
@@ -117,6 +121,7 @@
 					}
 				})
 			}
+			// #endif
 		},
 		methods: {
 			// 点击tab获取详细列表
@@ -310,15 +315,7 @@
 			.recommend-card-list-box {
 				width: 100vw;
 				min-height: 50vh;
-				// background:
-				// 	radial-gradient(farthest-side at top right, #42b132 98%, #0000) calc(50% - 10px) 0/20px 20px no-repeat,
-				// 	radial-gradient(farthest-side at bottom right, #42b132 98%, #0000) calc(50% - 10px) 100%/20px 20px no-repeat,
-				// 	linear-gradient(90deg, #fcd000 50%, #009cda 0);
-				// background:
-				// 	radial-gradient(farthest-side at top right, #42b132 98%, #0000) calc(50% - 10px) 0/20px 20px no-repeat,
-				// 	radial-gradient(farthest-side at bottom right, #42b132 98%, #0000) calc(50% - 10px) 100%/20px 20px no-repeat,
-				// 	linear-gradient(90deg, #fcd000 50%, #009cda 0);
-				padding: 100rpx 0 30rpx 0;
+				padding: 130rpx 0 30rpx 0;
 			}
 
 			.ad-box {

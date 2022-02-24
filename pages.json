@@ -101,6 +101,11 @@
 			"style": {
 				"navigationBarTitleText": "联系我们"
 			}
+		}, {
+			"path": "pages/webview/index",
+			"style": {
+				"navigationBarTitleText": "VIP尊享"
+			}
 		}
 	],
 	// 全局样式

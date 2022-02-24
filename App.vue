@@ -1,21 +1,13 @@
 <script>
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			this.$store.commit('setTabbarindex', 0); // 首次打开应用，tabbar默认选中第一个
 			//隐藏官方tabbar
 			uni.hideTabBar()
 			// 请求用户信息
 			this.init();
 		},
 		onShow: function() {
-			let pages = getCurrentPages() // 获取栈实例
-			if (pages.length) {
-				let page = pages[pages.length - 1].route // 获取当前页面的数据，包含页面路由
-				uni.setStorageSync("tabIndex", uni.getStorageSync('tabIndex'));
-			} else {
-				uni.setStorageSync("tabIndex", 0);
-			}
-			console.log("选中的tab", uni.getStorageSync('tabIndex'))
 			//隐藏官方tabbar
 			uni.hideTabBar()
 		},
@@ -24,7 +16,6 @@
 		},
 		methods: {
 			init() {
-				console.log("获取用户信息", this.$store)
 				this.$store.dispatch("getUserInfo"); // 获取用户信息
 				this.$store.dispatch("getUserlevelInfo"); // 获取用户积分信息
 				this.$store.dispatch("getTabbarList"); // 获取tabbar
