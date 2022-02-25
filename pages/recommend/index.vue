@@ -49,6 +49,13 @@
 		<!-- tabbar -->
 		<tab-bar></tab-bar>
 
+		<!-- 评价组件 -->
+		<drag-button-follow :style.sync="style" :follow="true" className="drag-button" class="drag-button"
+			@btnClick="ratingClick">打分
+		</drag-button-follow>
+		
+		<!-- 打分弹窗 -->
+		<rating-modal :ratingShow="ratingShow" @closeRating="closeRating"></rating-modal>
 	</view>
 </template>
 
@@ -82,7 +89,9 @@
 				selectTab: 'today', // 选中的tab
 
 				name: '',
-				id: ''
+				id: '',
+				style: '',
+				ratingShow: false, // 打分弹窗
 			}
 		},
 		//监听下拉刷新
@@ -91,6 +100,11 @@
 			this.currentIndex = 0;
 			this.selectTab = 'today', // 选中的tab
 				this.initToday();
+		},
+		computed: {
+			userInfo() {
+				return this.$store.state.userInfo
+			}
 		},
 		mounted() {
 			this.initToday();
@@ -220,6 +234,21 @@
 				this.name = name;
 				this.id = id;
 				this.showad = true;
+			},
+			// 打开打分弹窗
+			ratingClick() {
+				if (this.userInfo) {
+					this.ratingShow = true;
+				} else {
+					// 未登录跳转到登录页面
+					uni.navigateTo({
+						url: `/pages/login/login`
+					})
+				}
+			},
+			// 关闭打分弹窗
+			closeRating() {
+				this.ratingShow = false;
 			}
 		}
 	}
@@ -324,6 +353,23 @@
 			}
 		}
 
-
+		.drag-button {
+			background: #FFFFFF;
+			border: 0.5px solid #EEEEEE;
+			box-shadow: 0 5rpx 10rpx 0 rgba(0, 0, 0, 0.2);
+			width: 70rpx;
+			height: 70rpx;
+			opacity: 0.8;
+			z-index: 9;
+			font-size: 20rpx;
+			color: #bd6a44;
+			position: fixed;
+			right: 0;
+			bottom: 180rpx;
+			border-radius: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 	}
 </style>

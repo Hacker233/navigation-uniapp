@@ -12,6 +12,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.pig-icon-test1:before {
+  content: "\e62f";
+}
+
+.pig-wujiaoxing-:before {
+  content: "\e648";
+}
+
+.pig--wujiaoxing:before {
+  content: "\e846";
+}
+
 .pig-jingwuicon_svg-:before {
   content: "\e65f";
 }
@@ -667,5 +679,3 @@
 .pig-wangzhan:before {
   content: "\e7fe";
 }
-
-
