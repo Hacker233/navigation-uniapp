@@ -51,9 +51,12 @@
 
 		<!-- 评价组件 -->
 		<drag-button-follow :style.sync="style" :follow="true" className="drag-button" class="drag-button"
-			@btnClick="ratingClick">打分
+			@btnClick="ratingClick">
+			<view class="content-box">
+				打分
+			</view>
 		</drag-button-follow>
-		
+
 		<!-- 打分弹窗 -->
 		<rating-modal :ratingShow="ratingShow" @closeRating="closeRating"></rating-modal>
 	</view>
@@ -357,8 +360,8 @@
 			background: #FFFFFF;
 			border: 0.5px solid #EEEEEE;
 			box-shadow: 0 5rpx 10rpx 0 rgba(0, 0, 0, 0.2);
-			width: 70rpx;
-			height: 70rpx;
+			width: 80rpx;
+			height: 80rpx;
 			opacity: 0.8;
 			z-index: 9;
 			font-size: 20rpx;
@@ -370,6 +373,14 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+
+			.content-box {
+				height: 100%;
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
 		}
 	}
 </style>

@@ -43,6 +43,7 @@
 		data() {
 			return {
 				phoneData: '', // 用户/电话
+				username: '', // 用户名
 				passData: '', //密码
 				verCode: "", //验证码
 				showAgree: true, //协议是否选择

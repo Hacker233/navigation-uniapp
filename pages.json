@@ -106,6 +106,13 @@
 			"style": {
 				"navigationBarTitleText": "VIP尊享"
 			}
+		}, {
+			"path": "pages/allrating/index",
+			"style": {
+				"navigationBarTitleText": "所有评价",
+				"enablePullDownRefresh": true
+				
+			}
 		}
 	],
 	// 全局样式

@@ -72,7 +72,7 @@
 </script>
 <style lang="scss">
 	.tabs {
-		min-height: 56vh;
+		// min-height: 56vh;
 		display: flex;
 		flex-direction: column;
 

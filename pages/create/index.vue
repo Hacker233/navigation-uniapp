@@ -30,9 +30,10 @@
 
 
 		<!-- 上拉加載动画 -->
-		<view class="loading-box" v-if="isloading">
+		<our-loading active v-if="isloading"></our-loading>
+		<!-- <view class="loading-box" >
 			<u-loading-icon></u-loading-icon>
-		</view>
+		</view> -->
 		<!-- 是否已经到底部了 -->
 		<u-divider v-if="isEnd && !isShowNoData" text="到底啦~~~"></u-divider>
 
@@ -174,10 +175,6 @@
 		methods: {
 			// 初始化分类列表
 			async getSocategoryAll() {
-				//显示加载框
-				uni.showLoading({
-					title: "加载中"
-				})
 				const data = await querySocategoryAll();
 				if (data.code === "00000") {
 					this.categoryList = data.data;
@@ -185,7 +182,6 @@
 					this.querySourceByCategoryAsync();
 				} else {
 					uni.$u.toast(data.message);
-					uni.hideLoading();
 				}
 			},
 			// 初始化资源页面轮播图
@@ -203,11 +199,8 @@
 			},
 			// 查询该分类下的资源
 			async querySourceByCategoryAsync() {
+				this.isloading = true;
 				this.isShowNoData = false;
-				//显示加载框
-				uni.showLoading({
-					title: "加载中"
-				})
 				let params = {
 					page: this.pageParams.page,
 					pageSize: this.pageParams.pageSize,
@@ -226,10 +219,9 @@
 						this.isShowNoData = true;
 					}
 					uni.stopPullDownRefresh();
-					uni.hideLoading();
 				} else {
 					uni.$u.toast(data.message);
-					uni.hideLoading();
+					this.isloading = false;
 				}
 			},
 			// 选择分类
@@ -322,7 +314,7 @@
 			justify-content: space-between;
 			padding: 0 32rpx;
 			box-sizing: border-box;
-			min-height: 50vh;
+			// min-height: 50vh;
 		}
 
 	}
