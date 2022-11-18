@@ -19,7 +19,8 @@
 				</view>
 				<!-- 简介 -->
 				<view class="source_abstract">
-					<u--text type="info" :text="'简介：' + sourceInfo.source_abstract"></u--text>
+					<text class="abstract-text" selectable="true">简介：{{sourceInfo.source_abstract}}</text>
+					<!-- <u--text type="info" :text="'简介：' + sourceInfo.source_abstract" mode="text"></u--text> -->
 				</view>
 				<!-- 资源截图 -->
 				<view class="source-screen">
@@ -364,6 +365,10 @@
 				padding: 0 80rpx;
 				display: flex;
 				text-align: justify;
+				.abstract-text {
+					color: #909399;
+					font-size: 30rpx;
+				}
 			}
 
 			.source-screen {

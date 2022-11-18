@@ -1,6 +1,12 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/create/index",
+			"style": {
+				"navigationBarTitleText": "资源",
+				"enablePullDownRefresh": true
+			}
+		}, {
 			"path": "pages/recommend/index",
 			"style": {
 				"navigationBarTitleText": "科技趣玩",
@@ -18,12 +24,6 @@
 			"path": "pages/article/index",
 			"style": {
 				"navigationBarTitleText": "文章",
-				"enablePullDownRefresh": true
-			}
-		}, {
-			"path": "pages/create/index",
-			"style": {
-				"navigationBarTitleText": "资源",
 				"enablePullDownRefresh": true
 			}
 		}, {
@@ -111,7 +111,7 @@
 			"style": {
 				"navigationBarTitleText": "所有评价",
 				"enablePullDownRefresh": true
-				
+
 			}
 		}
 	],
@@ -129,27 +129,30 @@
 		// "selectedColor": "#007AFF",
 		// "backgroundColor": "#FFFFFF",
 		// "borderStyle": "white",
-		"list": [{
-			"pagePath": "pages/recommend/index"
-			// "selectedIconPath": "static/tabBar/recommend-select.png",
-			// "iconPath": "static/tabBar/recommend.png",
-			// "text": "推荐"
-		}, {
-			"pagePath": "pages/index/index"
-			// "selectedIconPath": "static/tabBar/home-select.png",
-			// "iconPath": "static/tabBar/home.png",
-			// "text": "网站"
-		}, {
-			"pagePath": "pages/create/index"
-			// "text": "资源",
-			// "iconPath": "static/tabBar/chat.png",
-			// "selectedIconPath": "static/tabBar/chat-slelect.png"
-		}, {
-			"pagePath": "pages/person/index"
-			// "text": "我的",
-			// "iconPath": "static/tabBar/person.png",
-			// "selectedIconPath": "static/tabBar/person-select.png"
-		}]
+		"list": [
+			// {
+			// 	"pagePath": "pages/recommend/index"
+			// 	// "selectedIconPath": "static/tabBar/recommend-select.png",
+			// 	// "iconPath": "static/tabBar/recommend.png",
+			// 	// "text": "推荐"
+			// }, {
+			// 	"pagePath": "pages/index/index"
+			// 	// "selectedIconPath": "static/tabBar/home-select.png",
+			// 	// "iconPath": "static/tabBar/home.png",
+			// 	// "text": "网站"
+			// }, 
+			{
+				"pagePath": "pages/create/index"
+				// "text": "资源",
+				// "iconPath": "static/tabBar/chat.png",
+				// "selectedIconPath": "static/tabBar/chat-slelect.png"
+			}, {
+				"pagePath": "pages/person/index"
+				// "text": "我的",
+				// "iconPath": "static/tabBar/person.png",
+				// "selectedIconPath": "static/tabBar/person-select.png"
+			}
+		]
 	},
 	"easycom": {
 		"autoscan": true,
